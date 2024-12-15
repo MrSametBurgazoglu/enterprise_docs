@@ -1,9 +1,39 @@
 Crud
 ==================
 
-Now it's time to make the enemies our player will have to dodge. Their behavior
-will not be very complex: mobs will spawn randomly at the edges of the screen,
-choose a random direction, and move in a straight line.
+Crud Operations on enterprise
 
-We'll create a ``Mob`` scene, which we can then *instance* to create any number
-of independent mobs in the game.
+.. code-block:: golang
+
+    import "/your/project/models" // your auto-generated models package
+    import "github.com/MrSametBurgazoglu/enterprise/client"
+
+    db, err := models.NewDB(dbUrl)
+    if err != nil {
+        panic(err)
+    }
+
+    ctx := context.Background()
+    account := models.NewAccount(ctx, db)
+    account.SetName("name")
+    account.SetSurname("surname")
+    err = acc.Create()//row added to table
+    if err != nil {
+        log.Fatal(err)
+    }
+    account.SetSurname("new surname")
+    err = acc.Update()//row updated on table
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    account.Where(account.IsIDEqual(account.GetID()))
+    err = account.Get()//row variables set to account struct
+    if err != nil {
+        log.Fatal(err)
+    }
+
+   err = account.Delete()//delete row from table
+    if err != nil {
+        log.Fatal(err)
+    }
