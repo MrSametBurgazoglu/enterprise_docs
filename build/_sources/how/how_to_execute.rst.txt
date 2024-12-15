@@ -1,2 +1,0 @@
-How Enterprise Execute Queries
-==================
