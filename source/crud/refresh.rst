@@ -1,10 +1,6 @@
 Refresh Model
 ==================
 
-.. attention::
-
-  Refresh() currently under development
-
 For refreshing a model on first import necessary packages
 
 .. code-block:: golang
