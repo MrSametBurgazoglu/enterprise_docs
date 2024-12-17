@@ -33,6 +33,7 @@ Features
    crud
    generating_models
    migration
+   benchmark
 
 .. toctree::
    :maxdepth: 1
