@@ -42,6 +42,8 @@ Features
    table/transform.rst
    table/relation.rst
    table/fields.rst
+   table/hook.rst
+   table/auto_cache.rst
 
 .. toctree::
    :maxdepth: 1
@@ -58,24 +60,19 @@ Features
    :maxdepth: 1
    :caption: DB Fields
 
-   fields/id.rst
+   fields/field.rst
+   fields/boolean.rst
+   fields/uuid.rst
    fields/string.rst
    fields/integer.rst
-   fields/boolean.rst
+   fields/uint.rst
    fields/enum.rst
+   fields/time.rst
    fields/json.rst
    fields/nillable.rst
    fields/default.rst
-   fields/validators.rst
    fields/custom.rst
 
-.. toctree::
-   :maxdepth: 1
-   :caption: Operation Hooks
-
-   hooks/hook.rst
-   hooks/hook_on_crud.rst
-   hooks/hook_on_list.rst
 
 .. toctree::
    :maxdepth: 1

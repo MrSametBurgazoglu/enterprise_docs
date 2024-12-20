@@ -1,2 +1,0 @@
-Validate Before Database Operations
-==================

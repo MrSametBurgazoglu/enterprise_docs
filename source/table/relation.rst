@@ -1,7 +1,8 @@
 DB Relations
 ==================
 
-**Many to Many**
+Many to Many
+**********
 
 Let's create connection between Account and Group. An account could be inside more than one group and a group can have more than one account.
 Enterprise will create a connection table with integer id and both table's primary keys.
@@ -92,7 +93,8 @@ You can use the following functions for many-to-many relations.
     func (t *Group) IsInAccount(relationship *Account) (bool, error
 
 
-**Many to One**
+Many to One
+**********
 
 Let's create connection between Account and Test. An account can have one test. But a test can have more than one account.
 
@@ -176,5 +178,5 @@ You can use the following functions for many-to-many relations.
 
 .. code-block:: golang
 
-    func (t *Account) WithDeneme(opts ...func(*Deneme))
+    func (t *Account) WithTest(opts ...func(*Test))
     func (t *Test) WithAccountList(opts ...func(*AccountList))
