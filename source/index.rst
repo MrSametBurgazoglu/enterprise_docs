@@ -34,6 +34,7 @@ Features
    generating_models
    migration
    benchmark
+   ai_guide
 
 .. toctree::
    :maxdepth: 1
