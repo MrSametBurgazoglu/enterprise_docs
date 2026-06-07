@@ -1,43 +1,104 @@
-How to hook Database Operations
-==================
+How to Hook Database Operations
+===============================
 
-A general hook function looks like this. When you use `create,get,refresh,update,delete` operations on `Account` this function will be executed.
+Enterprise provides an advanced hooks system that intercepts all database mutations (inserts, updates, deletes, retrieves, and listings). This lets you inject validation logic, modify entity fields before saving, implement auditing, or trigger side effects.
 
-.. code-block:: golang
+Registering Hooks
+*****************
 
-    var databaseAccountOperationHook = func(operationInfo *client.OperationInfo, model *Account, operationFunc func() error) error {
-        return operationFunc()
-    }
+Enterprise generates package-level hook functions and registration setters for every model. Hooks are executed around the actual SQL operation.
 
-You can set this operation hook by function below. Your hook function can get operation info, db model itself and operation function will be executed.
+A hook function receives:
+1. The request ``context.Context``
+2. An ``*client.OperationInfo`` containing the table name and the type of operation (Create, Update, Delete, etc.)
+3. The model instance being mutated
+4. An `operationFunc` callback representing the database action. You **must** call this function to commit the action, or return an error to abort it.
 
-.. code-block:: golang
+Registering a Single Entity Hook
+--------------------------------
 
-    func SetDatabaseAccountOperationHook(f func(operationInfo *client.OperationInfo, model *Account, operationFunc func() error) error) {
-       databaseAccountOperationHook = f
-    }
+For a model named ``Account``, use ``SetDatabaseAccountOperationHook``:
 
-Let's say we don't want our account models have empty name and surname before updated. We can put a check on hook to control update function.
+.. code-block:: go
 
-.. code-block:: golang
+    package main
 
-    func HookAccount(operationInfo *client.OperationInfo, model *Account, operationFunc func() error) error {
-        switch operationInfo.OperationType{
-            case client.OperationType.Update:
-                if model.GetName() == "" || model.GetSurName() == ""{
-                    return errors.New("Account name and surname can't be empty")
+    import (
+        "context"
+        "errors"
+        "log"
+        "time"
+
+        "github.com/MrSametBurgazoglu/enterprise/client"
+        "your/project/models"
+    )
+
+    func main() {
+        // Register the hook at application startup
+        models.SetDatabaseAccountOperationHook(func(
+            ctx context.Context,
+            opInfo *client.OperationInfo,
+            model *models.Account,
+            operationFunc func() error,
+        ) error {
+            log.Printf("Executing %s on table %s", opInfo.OperationType, opInfo.TableName)
+
+            // 1. Pre-execution logic: Validation
+            if opInfo.OperationType == client.OperationTypeUpdate || opInfo.OperationType == client.OperationTypeCreate {
+                if model.GetName() == "" {
+                    return errors.New("account name cannot be empty")
                 }
+            }
+
+            // 2. Pre-execution logic: Modify fields (e.g. Audit Fields)
+            // If you have a last_modified timestamp, you can set it here
+            
+            // 3. Execute the actual SQL query
+            err := operationFunc()
+            if err != nil {
+                log.Printf("Database operation failed: %v", err)
+                return err
+            }
+
+            // 4. Post-execution logic: Auditing or side-effects
+            log.Printf("Successfully completed %s", opInfo.OperationType)
+            return nil
+        })
+    }
+
+Registering a List Hook
+-----------------------
+
+To hook operations performed on model slices (such as bulk creates, bulk deletes, or list fetches), register a list hook using ``SetDatabase[ModelName]ListOperationHook``:
+
+.. code-block:: go
+
+    models.SetDatabaseAccountListOperationHook(func(
+        ctx context.Context,
+        opInfo *client.OperationInfo,
+        modelList *models.AccountList,
+        operationFunc func() error,
+    ) error {
+        // Intercept bulk insertions
+        if opInfo.OperationType == client.OperationTypeBulkCreate {
+            for _, acc := range modelList.Items {
+                if acc.GetSurname() == "" {
+                    return errors.New("all bulk-inserted accounts must have a surname")
+                }
+            }
         }
-    }
 
-For List models you can use below functions.
-
-.. code-block:: golang
-
-    var databaseAccountListOperationHook = func(operationInfo *client.OperationInfo, model *AccountList, operationFunc func() error) error {
         return operationFunc()
-    }
+    })
 
-    func SetDatabaseAccountListOperationHook(f func(operationInfo *client.OperationInfo, model *AccountList, operationFunc func() error) error) {
-       databaseAccountListOperationHook = f
-    }
+Use Cases for Hooks
+*******************
+
+1. **Auto-populating UUIDs or Timestamps**:
+   You can auto-populate creation/modification timestamps when calling `Create` or `Update`.
+2. **Field Encryption/Hashing**:
+   Encrypt or hash sensitive data (such as user passwords) before inserting them into the database.
+3. **Soft Deletes**:
+   Change a `Delete` operation into an `Update` operation that toggles an `is_deleted` flag (by returning custom updates and omitting the original `operationFunc` call).
+4. **Data Normalization**:
+   Lowercase email addresses or trim trailing spaces on string columns before writing.

@@ -43,7 +43,6 @@ Features
    table/relation.rst
    table/fields.rst
    table/hook.rst
-   table/auto_cache.rst
 
 .. toctree::
    :maxdepth: 1
@@ -69,6 +68,8 @@ Features
    fields/enum.rst
    fields/time.rst
    fields/json.rst
+   fields/byte.rst
+   fields/float.rst
    fields/nillable.rst
    fields/default.rst
    fields/custom.rst

@@ -1,7 +1,9 @@
 Byte Field
-==================
+==========
 
-.. code-block:: golang
+Byte fields are used to store binary data in the database, mapping to PostgreSQL's ``bytea`` column type.
+
+.. code-block:: go
 
     type ByteDBField struct {
         *Field
@@ -15,14 +17,21 @@ Byte Field
         return i
     }
 
-    func (i *ByteDBField) DefaultFunc(v func() bool) *ByteDBField {
-        i.DefaultFuncStruct.DefaultFunc(v)
-        i.RequiredPackages = append(i.RequiredPackages, i.DefaultFuncStruct.PackageAddress)
-        i.HaveDefault = true
+    func (i *ByteDBField) DefaultFunc(v func() []byte) *ByteDBField {
+        i.Field.DefaultFunc(v)
         return i
     }
 
+Usage
+*****
 
-.. attention::
+Define a byte field in your schema:
 
-  Json field uses ``map[string]any``
+.. code-block:: go
+
+    models.ByteField("Data")
+
+Nullability
+***********
+
+By default, byte fields map to a ``[]byte`` in Go. You can make it nullable using ``SetNillable()``.

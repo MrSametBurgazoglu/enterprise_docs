@@ -1,31 +1,30 @@
 DB Relations
 ==================
 
+Enterprise supports three primary database relation types: **Many-to-Many**, **Many-to-One**, and **One-to-Many**. These relations are declared inside the schema files using the ``models`` relationship helpers, and the generator produces type-safe loading and association methods.
+
 Many to Many
-**********
+************
 
-Let's create connection between Account and Group. An account could be inside more than one group and a group can have more than one account.
-Enterprise will create a connection table with integer id and both table's primary keys.
+A Many-to-Many relationship connects two tables via a join table. For example, an ``Account`` can belong to multiple ``Group`` models, and a ``Group`` can contain multiple ``Account`` models.
 
-``models.ManyToMany(GroupName, "account_id", "group_id", "id", AccountGroupName)``
+Use ``models.ManyToMany`` to declare this in your schema files:
 
-``models.ManyToMany(AccountName, "group_id", "account_id", "id", AccountGroupName)``
+.. code-block:: go
 
-#. first variable is name of the other table we want to connect.
-#. second variable is our first table's foreign key column name.
-#. third variable is our second table's foreign key column name.
-#. fourth variable is primary key of second table which is group.
-#. And the last variable is connection table's name which connect account and group.
+    // models.ManyToMany(targetTable, sourceForeignKey, targetForeignKey, targetPrimaryKey, joinTableName)
+    models.ManyToMany("Group", "account_id", "group_id", "id", "account_group")
 
-`account` ``your/project/db_models/account.go``
+`account` Schema Definition ``db_models/account.go``
+----------------------------------------------------
 
-.. code-block:: golang
+.. code-block:: go
 
     package db_models
 
     import (
-	    "github.com/MrSametBurgazoglu/enterprise/models"
-	    "github.com/google/uuid"
+        "github.com/MrSametBurgazoglu/enterprise/models"
+        "github.com/google/uuid"
     )
 
     func Account() *models.Table {
@@ -36,23 +35,22 @@ Enterprise will create a connection table with integer id and both table's prima
                 idField,
                 models.StringField("Name"),
                 models.StringField("Surname"),
-                models.UUIDField("DenemeID").SetNillable(),
-                models.UintField("Serial").AddSerial(),
             },
             Relations: []*models.Relation{
-                models.ManyToMany(GroupName, "account_id", "group_id", "id", AccountGroupName),
+                models.ManyToMany("Group", "account_id", "group_id", "id", "account_group"),
             },
         }
 
-        tb.SetTableName(AccountName)
+        tb.SetTableName("account")
         tb.SetIDField(idField)
 
         return tb
     }
 
-`group` ``your/project/db_models/group.go``
+`group` Schema Definition ``db_models/group.go``
+------------------------------------------------
 
-.. code-block:: golang
+.. code-block:: go
 
     package db_models
 
@@ -68,115 +66,97 @@ Enterprise will create a connection table with integer id and both table's prima
             Fields: []models.FieldI{
                 idField,
                 models.StringField("Name"),
-                models.StringField("Surname"),
             },
             Relations: []*models.Relation{
-               models.ManyToMany(AccountName, "group_id", "account_id", "id", AccountGroupName),
+                models.ManyToMany("Account", "group_id", "account_id", "id", "account_group"),
             },
         }
 
-        tb.SetTableName(GroupName)
+        tb.SetTableName("group")
         tb.SetIDField(idField)
 
         return tb
     }
 
-You can use the following functions for many-to-many relations.
+Generated Many-to-Many Methods
+------------------------------
 
-.. code-block:: golang
+For Many-to-Many relations, Enterprise generates helper methods to manage row links in the join table:
 
+.. code-block:: go
+
+    // On Account model
     func (t *Account) AddIntoGroup(relationship *Group) error
     func (t *Account) RemoveFromGroup(relationship *Group) error
-    func (t *Account) IsInGroup(relationship *Group) (bool, error
+    func (t *Account) IsInGroup(relationship *Group) (bool, error)
+
+    // On Group model
     func (t *Group) AddIntoAccount(relationship *Account) error
     func (t *Group) RemoveFromAccount(relationship *Account) error
-    func (t *Group) IsInAccount(relationship *Account) (bool, error
+    func (t *Group) IsInAccount(relationship *Account) (bool, error)
 
+Many to One & One to Many
+*************************
 
-Many to One
-**********
+A Many-to-One / One-to-Many relationship links one table to another via a foreign key on the source table. For example, an ``Account`` belongs to a ``Deneme`` (Many-to-One), and a ``Deneme`` has many ``Account`` records (One-to-Many).
 
-Let's create connection between Account and Test. An account can have one test. But a test can have more than one account.
+- ``models.ManyToOne``: Used on the table containing the foreign key.
+- ``models.OneToMany``: Used on the target table.
 
-``models.ManyToOne(TestName, idField.DBName, "test_id")``
+`account` Schema Definition (Many-to-One)
+-----------------------------------------
 
-``models.OneToMany(AccountName, idField.DBName, "test_id")``
+.. code-block:: go
 
-#. first variable is name of the other table we want to connect.
-#. second variable is other table's primary key column name.
-#. third variable is our current table's foreign key column name.
+    // models.ManyToOne(targetTable, targetPrimaryKey, sourceForeignKey)
+    models.ManyToOne("Deneme", "id", "deneme_id")
 
-`account` ``your/project/db_models/account.go``
+`deneme` Schema Definition (One-to-Many)
+----------------------------------------
 
-.. code-block:: golang
+.. code-block:: go
 
-    package db_models
+    // models.OneToMany(targetTable, sourcePrimaryKey, targetForeignKey)
+    models.OneToMany("Account", "id", "deneme_id")
 
-    import (
-	    "github.com/MrSametBurgazoglu/enterprise/models"
-	    "github.com/google/uuid"
-    )
+Generated Relation Loading & Eager Filtering
+********************************************
 
-    func Account() *models.Table {
-        idField := models.UUIDField("ID").DefaultFunc(uuid.New)
+For loading relations, Enterprise generates eager loading methods. You can pass inline callback functions to filter the loaded relation rows with a single SQL query.
 
-        tb := &models.Table{
-            Fields: []models.FieldI{
-                idField,
-                models.StringField("Name"),
-                models.StringField("Surname"),
-                models.UUIDField("DenemeID").SetNillable(),
-                models.UintField("Serial").AddSerial(),
-            },
-            Relations: []*models.Relation{
-                models.ManyToOne(TestName, idField.DBName, "test_id"),
-            },
+.. code-block:: go
+
+    account := models.NewAccount(ctx, db)
+    account.Where(account.IsIDEqual(targetID))
+
+    // Eagerly load the related Deneme model, filtering it inline
+    account.WithDeneme(func(d *models.Deneme) {
+        d.Where(d.IsActiveEqual(true))
+    })
+
+    err = account.Get()
+    if err == nil {
+        // Access the loaded relation
+        if account.Deneme != nil {
+            fmt.Println("Deneme Count:", account.Deneme.GetCount())
         }
-
-        tb.SetTableName(AccountName)
-        tb.SetIDField(idField)
-
-        return tb
     }
 
-`test` ``your/project/db_models/test.go``
+Similarly, you can load a list of related records:
 
-.. code-block:: golang
+.. code-block:: go
 
-    package db_models
+    deneme := models.NewDeneme(ctx, db)
+    deneme.Where(deneme.IsIDEqual(denemeID))
 
-    import (
-        "github.com/MrSametBurgazoglu/enterprise/models"
-        "github.com/google/uuid"
-    )
+    // Eagerly load the related accounts list
+    deneme.WithAccountList(func(al *models.AccountList) {
+        al.Where(al.IsSurnameEqual("Smith"))
+    })
 
-    func Test() *models.Table {
-        idField := models.UUIDField("ID").DefaultFunc(uuid.New)
-        denemeTypeEnumValues := []string{"Test", "Deneme"}
-        testRelationField := models.UUIDField("TestID").SetNillable()
-
-        tb := &models.Table{
-            Fields: []models.FieldI{
-                idField,
-                testRelationField,
-                models.IntField("Count"),
-                models.BoolField("IsActive").Default(true),
-                models.EnumField("DenemeType", denemeTypeEnumValues),
-            },
-            Relations: []*models.Relation{
-                models.OneToMany(AccountName, idField.DBName, "test_id"),
-            },
+    err = deneme.Get()
+    if err == nil {
+        for _, acc := range deneme.AccountList.Items {
+            fmt.Println("Related Account Name:", acc.GetName())
         }
-
-        tb.SetTableName(DenemeName)
-        tb.SetIDField(idField)
-        return tb
     }
-
-
-You can use the following functions for many-to-many relations.
-
-.. code-block:: golang
-
-    func (t *Account) WithTest(opts ...func(*Test))
-    func (t *Test) WithAccountList(opts ...func(*AccountList))
