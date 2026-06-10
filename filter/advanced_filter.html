@@ -1,0 +1,229 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced Filtering &mdash; Enterprise 0.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=049aceee"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Relation Filtering" href="relation.html" />
+    <link rel="prev" title="Custom Fields" href="../fields/custom.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Enterprise
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud.html">Crud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../generating_models.html">Generating Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../migration.html">Migration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ai_guide.html">AI Agent Integration Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Table</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../table/transform.html">Transform DB Table to Enterprise Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../table/relation.html">DB Relations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../table/fields.html">Supported Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../table/hook.html">How to Hook Database Operations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">CRUD</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../crud/create.html">Create Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/retrieve.html">Retrieve Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/update.html">Update Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/delete.html">Delete Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/list.html">List Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/refresh.html">Refresh Model</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DB Fields</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../fields/field.html">Base Field Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/boolean.html">Boolean Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/uuid.html">UUID Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/string.html">String Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/integer.html">Integer Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/uint.html">Unsigned Integer Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/enum.html">Enum Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/time.html">Time Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/json.html">Json Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/byte.html">Byte Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/float.html">Float Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/decimal.html">Decimal Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/string_array.html">String Array Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/nillable.html">Nullable Fields (SetNillable)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/default.html">Field Default Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/custom.html">Custom Fields</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Filters</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Advanced Filtering</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#logical-composition-and-or">Logical Composition (And / Or)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#like-ilike-wildcards">LIKE &amp; ILIKE Wildcards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#conditional-filters-whereif-wherein">Conditional Filters (WhereIf &amp; WhereIn)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#zero-predicates-unconditional-execution">Zero Predicates (Unconditional Execution)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="relation.html">Relation Filtering</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Enterprise Postgresql (Pgx)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../postgresql/postgre.html">Enterprise &amp; PostgreSQL</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">How Enterprise Works</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../how/how_to_execute.html">How Enterprise Executes Queries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how/how_to_filter.html">How Enterprise Filters Tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how/pgx.html">Enterprise and pgx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how/atlas.html">Enterprise Schema Migration with Atlas</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Enterprise</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Advanced Filtering</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/filter/advanced_filter.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="advanced-filtering">
+<h1>Advanced Filtering<a class="headerlink" href="#advanced-filtering" title="Link to this heading"></a></h1>
+<p>Enterprise provides a type-safe query building engine that supports complex logical queries, wildcard matches, dynamic/conditional filters, and SQL injection protection.</p>
+<section id="logical-composition-and-or">
+<h2>Logical Composition (And / Or)<a class="headerlink" href="#logical-composition-and-or" title="Link to this heading"></a></h2>
+<p>You can compose multiple predicates using <code class="docutils literal notranslate"><span class="pre">And</span></code> and <code class="docutils literal notranslate"><span class="pre">Or</span></code> operators. Predicates can be nested arbitrarily.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">list</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">NewAccountList</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">db</span><span class="p">)</span>
+
+<span class="c1">// Select accounts where (name = &quot;samet&quot; OR name = &quot;alice&quot;) AND status = &quot;active&quot;</span>
+<span class="nx">list</span><span class="p">.</span><span class="nx">Where</span><span class="p">(</span>
+<span class="w">    </span><span class="nx">models</span><span class="p">.</span><span class="nx">And</span><span class="p">(</span>
+<span class="w">        </span><span class="nx">models</span><span class="p">.</span><span class="nx">Or</span><span class="p">(</span>
+<span class="w">            </span><span class="nx">list</span><span class="p">.</span><span class="nx">IsNameEqual</span><span class="p">(</span><span class="s">&quot;samet&quot;</span><span class="p">),</span>
+<span class="w">            </span><span class="nx">list</span><span class="p">.</span><span class="nx">IsNameEqual</span><span class="p">(</span><span class="s">&quot;alice&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="p">),</span>
+<span class="w">        </span><span class="nx">list</span><span class="p">.</span><span class="nx">IsStatusEqual</span><span class="p">(</span><span class="s">&quot;active&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">list</span><span class="p">.</span><span class="nx">List</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="like-ilike-wildcards">
+<h2>LIKE &amp; ILIKE Wildcards<a class="headerlink" href="#like-ilike-wildcards" title="Link to this heading"></a></h2>
+<p>String fields support pattern matching using <code class="docutils literal notranslate"><span class="pre">LIKE</span></code> (case-sensitive) and <code class="docutils literal notranslate"><span class="pre">ILIKE</span></code> (case-insensitive) operators.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">list</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">NewGroupList</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">db</span><span class="p">)</span>
+
+<span class="c1">// Match surnames starting with &quot;Smith&quot; (case-sensitive)</span>
+<span class="nx">list</span><span class="p">.</span><span class="nx">Where</span><span class="p">(</span><span class="nx">list</span><span class="p">.</span><span class="nx">IsSurnameLike</span><span class="p">(</span><span class="s">&quot;Smith%&quot;</span><span class="p">))</span>
+
+<span class="c1">// Match surnames starting with &quot;smith&quot; (case-insensitive, matches &quot;Smith&quot;, &quot;SMITH&quot;, etc.)</span>
+<span class="nx">list</span><span class="p">.</span><span class="nx">Where</span><span class="p">(</span><span class="nx">list</span><span class="p">.</span><span class="nx">IsSurnameILike</span><span class="p">(</span><span class="s">&quot;smith%&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="conditional-filters-whereif-wherein">
+<h2>Conditional Filters (WhereIf &amp; WhereIn)<a class="headerlink" href="#conditional-filters-whereif-wherein" title="Link to this heading"></a></h2>
+<p>To avoid writing verbose conditional code when building queries dynamically based on user input, you can use <code class="docutils literal notranslate"><span class="pre">WhereIf</span></code> and <code class="docutils literal notranslate"><span class="pre">WhereIn</span></code>. The predicate is only appended to the query if the first argument evaluates to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">list</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">NewGroupList</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">db</span><span class="p">)</span>
+
+<span class="c1">// Only filter by name if searchName is not empty</span>
+<span class="nx">list</span><span class="p">.</span><span class="nx">WhereIf</span><span class="p">(</span><span class="nx">searchName</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">list</span><span class="p">.</span><span class="nx">IsNameEqual</span><span class="p">(</span><span class="nx">searchName</span><span class="p">))</span>
+
+<span class="c1">// Only filter by enum status if searchStatus is not empty</span>
+<span class="nx">list</span><span class="p">.</span><span class="nx">WhereIn</span><span class="p">(</span><span class="nx">searchStatus</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">list</span><span class="p">.</span><span class="nx">IsStatusIN</span><span class="p">(</span><span class="s">&quot;active&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;pending&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="zero-predicates-unconditional-execution">
+<h2>Zero Predicates (Unconditional Execution)<a class="headerlink" href="#zero-predicates-unconditional-execution" title="Link to this heading"></a></h2>
+<p>Calling <code class="docutils literal notranslate"><span class="pre">Where()</span></code> with no arguments, or where all conditional predicates evaluate to false, is a safe no-op. The query runs without a <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> clause, returning all records in the table.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">list</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">NewGroupList</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">db</span><span class="p">)</span>
+
+<span class="c1">// No-op, executes SELECT without any WHERE clause</span>
+<span class="nx">list</span><span class="p">.</span><span class="nx">Where</span><span class="p">()</span>
+<span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">list</span><span class="p">.</span><span class="nx">List</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../fields/custom.html" class="btn btn-neutral float-left" title="Custom Fields" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="relation.html" class="btn btn-neutral float-right" title="Relation Filtering" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Samet Burgazoglu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

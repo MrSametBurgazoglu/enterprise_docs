@@ -1,0 +1,325 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DB Relations &mdash; Enterprise 0.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=049aceee"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Supported Fields" href="fields.html" />
+    <link rel="prev" title="Transform DB Table to Enterprise Table" href="transform.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Enterprise
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud.html">Crud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../generating_models.html">Generating Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../migration.html">Migration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ai_guide.html">AI Agent Integration Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Table</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="transform.html">Transform DB Table to Enterprise Table</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">DB Relations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#many-to-many">Many to Many</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#account-schema-definition-db-models-account-go"><cite>account</cite> Schema Definition <code class="docutils literal notranslate"><span class="pre">db_models/account.go</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#group-schema-definition-db-models-group-go"><cite>group</cite> Schema Definition <code class="docutils literal notranslate"><span class="pre">db_models/group.go</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generated-many-to-many-methods">Generated Many-to-Many Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#many-to-one-one-to-many">Many to One &amp; One to Many</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#account-schema-definition-many-to-one"><cite>account</cite> Schema Definition (Many-to-One)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deneme-schema-definition-one-to-many"><cite>deneme</cite> Schema Definition (One-to-Many)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#generated-relation-loading-eager-filtering">Generated Relation Loading &amp; Eager Filtering</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fields.html">Supported Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hook.html">How to Hook Database Operations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">CRUD</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../crud/create.html">Create Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/retrieve.html">Retrieve Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/update.html">Update Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/delete.html">Delete Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/list.html">List Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/refresh.html">Refresh Model</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DB Fields</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../fields/field.html">Base Field Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/boolean.html">Boolean Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/uuid.html">UUID Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/string.html">String Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/integer.html">Integer Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/uint.html">Unsigned Integer Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/enum.html">Enum Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/time.html">Time Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/json.html">Json Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/byte.html">Byte Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/float.html">Float Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/decimal.html">Decimal Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/string_array.html">String Array Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/nillable.html">Nullable Fields (SetNillable)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/default.html">Field Default Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/custom.html">Custom Fields</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Filters</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../filter/advanced_filter.html">Advanced Filtering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../filter/relation.html">Relation Filtering</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Enterprise Postgresql (Pgx)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../postgresql/postgre.html">Enterprise &amp; PostgreSQL</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">How Enterprise Works</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../how/how_to_execute.html">How Enterprise Executes Queries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how/how_to_filter.html">How Enterprise Filters Tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how/pgx.html">Enterprise and pgx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how/atlas.html">Enterprise Schema Migration with Atlas</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Enterprise</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">DB Relations</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/table/relation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="db-relations">
+<h1>DB Relations<a class="headerlink" href="#db-relations" title="Link to this heading"></a></h1>
+<p>Enterprise supports three primary database relation types: <strong>Many-to-Many</strong>, <strong>Many-to-One</strong>, and <strong>One-to-Many</strong>. These relations are declared inside the schema files using the <code class="docutils literal notranslate"><span class="pre">models</span></code> relationship helpers, and the generator produces type-safe loading and association methods.</p>
+<section id="many-to-many">
+<h2>Many to Many<a class="headerlink" href="#many-to-many" title="Link to this heading"></a></h2>
+<p>A Many-to-Many relationship connects two tables via a join table. For example, an <code class="docutils literal notranslate"><span class="pre">Account</span></code> can belong to multiple <code class="docutils literal notranslate"><span class="pre">Group</span></code> models, and a <code class="docutils literal notranslate"><span class="pre">Group</span></code> can contain multiple <code class="docutils literal notranslate"><span class="pre">Account</span></code> models.</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">models.ManyToMany</span></code> to declare this in your schema files:</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// models.ManyToMany(targetTable, sourceForeignKey, targetForeignKey, targetPrimaryKey, joinTableName)</span>
+<span class="nx">models</span><span class="p">.</span><span class="nx">ManyToMany</span><span class="p">(</span><span class="s">&quot;Group&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;account_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;group_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;account_group&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="account-schema-definition-db-models-account-go">
+<h3><cite>account</cite> Schema Definition <code class="docutils literal notranslate"><span class="pre">db_models/account.go</span></code><a class="headerlink" href="#account-schema-definition-db-models-account-go" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span><span class="w"> </span><span class="nx">db_models</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;github.com/MrSametBurgazoglu/enterprise/models&quot;</span>
+<span class="w">    </span><span class="s">&quot;github.com/google/uuid&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">Account</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="nx">models</span><span class="p">.</span><span class="nx">Table</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">idField</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">UUIDField</span><span class="p">(</span><span class="s">&quot;ID&quot;</span><span class="p">).</span><span class="nx">DefaultFunc</span><span class="p">(</span><span class="nx">uuid</span><span class="p">.</span><span class="nx">New</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">tb</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">models</span><span class="p">.</span><span class="nx">Table</span><span class="p">{</span>
+<span class="w">        </span><span class="nx">Fields</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="nx">models</span><span class="p">.</span><span class="nx">FieldI</span><span class="p">{</span>
+<span class="w">            </span><span class="nx">idField</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">models</span><span class="p">.</span><span class="nx">StringField</span><span class="p">(</span><span class="s">&quot;Name&quot;</span><span class="p">),</span>
+<span class="w">            </span><span class="nx">models</span><span class="p">.</span><span class="nx">StringField</span><span class="p">(</span><span class="s">&quot;Surname&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nx">Relations</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="o">*</span><span class="nx">models</span><span class="p">.</span><span class="nx">Relation</span><span class="p">{</span>
+<span class="w">            </span><span class="nx">models</span><span class="p">.</span><span class="nx">ManyToMany</span><span class="p">(</span><span class="s">&quot;Group&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;account_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;group_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;account_group&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">tb</span><span class="p">.</span><span class="nx">SetTableName</span><span class="p">(</span><span class="s">&quot;account&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">tb</span><span class="p">.</span><span class="nx">SetIDField</span><span class="p">(</span><span class="nx">idField</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">tb</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="group-schema-definition-db-models-group-go">
+<h3><cite>group</cite> Schema Definition <code class="docutils literal notranslate"><span class="pre">db_models/group.go</span></code><a class="headerlink" href="#group-schema-definition-db-models-group-go" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span><span class="w"> </span><span class="nx">db_models</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;github.com/MrSametBurgazoglu/enterprise/models&quot;</span>
+<span class="w">    </span><span class="s">&quot;github.com/google/uuid&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">Group</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="nx">models</span><span class="p">.</span><span class="nx">Table</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">idField</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">UUIDField</span><span class="p">(</span><span class="s">&quot;ID&quot;</span><span class="p">).</span><span class="nx">DefaultFunc</span><span class="p">(</span><span class="nx">uuid</span><span class="p">.</span><span class="nx">New</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">tb</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">models</span><span class="p">.</span><span class="nx">Table</span><span class="p">{</span>
+<span class="w">        </span><span class="nx">Fields</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="nx">models</span><span class="p">.</span><span class="nx">FieldI</span><span class="p">{</span>
+<span class="w">            </span><span class="nx">idField</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">models</span><span class="p">.</span><span class="nx">StringField</span><span class="p">(</span><span class="s">&quot;Name&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nx">Relations</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="o">*</span><span class="nx">models</span><span class="p">.</span><span class="nx">Relation</span><span class="p">{</span>
+<span class="w">            </span><span class="nx">models</span><span class="p">.</span><span class="nx">ManyToMany</span><span class="p">(</span><span class="s">&quot;Account&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;group_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;account_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;account_group&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">tb</span><span class="p">.</span><span class="nx">SetTableName</span><span class="p">(</span><span class="s">&quot;group&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">tb</span><span class="p">.</span><span class="nx">SetIDField</span><span class="p">(</span><span class="nx">idField</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">tb</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="generated-many-to-many-methods">
+<h3>Generated Many-to-Many Methods<a class="headerlink" href="#generated-many-to-many-methods" title="Link to this heading"></a></h3>
+<p>For Many-to-Many relations, Enterprise generates helper methods to manage row links in the join table:</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// On Account model</span>
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="o">*</span><span class="nx">Account</span><span class="p">)</span><span class="w"> </span><span class="nx">AddIntoGroup</span><span class="p">(</span><span class="nx">relationship</span><span class="w"> </span><span class="o">*</span><span class="nx">Group</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span>
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="o">*</span><span class="nx">Account</span><span class="p">)</span><span class="w"> </span><span class="nx">RemoveFromGroup</span><span class="p">(</span><span class="nx">relationship</span><span class="w"> </span><span class="o">*</span><span class="nx">Group</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span>
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="o">*</span><span class="nx">Account</span><span class="p">)</span><span class="w"> </span><span class="nx">IsInGroup</span><span class="p">(</span><span class="nx">relationship</span><span class="w"> </span><span class="o">*</span><span class="nx">Group</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="kt">bool</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+
+<span class="c1">// On Group model</span>
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="o">*</span><span class="nx">Group</span><span class="p">)</span><span class="w"> </span><span class="nx">AddIntoAccount</span><span class="p">(</span><span class="nx">relationship</span><span class="w"> </span><span class="o">*</span><span class="nx">Account</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span>
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="o">*</span><span class="nx">Group</span><span class="p">)</span><span class="w"> </span><span class="nx">RemoveFromAccount</span><span class="p">(</span><span class="nx">relationship</span><span class="w"> </span><span class="o">*</span><span class="nx">Account</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span>
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="o">*</span><span class="nx">Group</span><span class="p">)</span><span class="w"> </span><span class="nx">IsInAccount</span><span class="p">(</span><span class="nx">relationship</span><span class="w"> </span><span class="o">*</span><span class="nx">Account</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="kt">bool</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="many-to-one-one-to-many">
+<h2>Many to One &amp; One to Many<a class="headerlink" href="#many-to-one-one-to-many" title="Link to this heading"></a></h2>
+<p>A Many-to-One / One-to-Many relationship links one table to another via a foreign key on the source table. For example, an <code class="docutils literal notranslate"><span class="pre">Account</span></code> belongs to a <code class="docutils literal notranslate"><span class="pre">Deneme</span></code> (Many-to-One), and a <code class="docutils literal notranslate"><span class="pre">Deneme</span></code> has many <code class="docutils literal notranslate"><span class="pre">Account</span></code> records (One-to-Many).</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">models.ManyToOne</span></code>: Used on the table containing the foreign key.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">models.OneToMany</span></code>: Used on the target table.</p></li>
+</ul>
+<section id="account-schema-definition-many-to-one">
+<h3><cite>account</cite> Schema Definition (Many-to-One)<a class="headerlink" href="#account-schema-definition-many-to-one" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// models.ManyToOne(targetTable, targetPrimaryKey, sourceForeignKey)</span>
+<span class="nx">models</span><span class="p">.</span><span class="nx">ManyToOne</span><span class="p">(</span><span class="s">&quot;Deneme&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;deneme_id&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="deneme-schema-definition-one-to-many">
+<h3><cite>deneme</cite> Schema Definition (One-to-Many)<a class="headerlink" href="#deneme-schema-definition-one-to-many" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// models.OneToMany(targetTable, sourcePrimaryKey, targetForeignKey)</span>
+<span class="nx">models</span><span class="p">.</span><span class="nx">OneToMany</span><span class="p">(</span><span class="s">&quot;Account&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;deneme_id&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="generated-relation-loading-eager-filtering">
+<h2>Generated Relation Loading &amp; Eager Filtering<a class="headerlink" href="#generated-relation-loading-eager-filtering" title="Link to this heading"></a></h2>
+<p>For loading relations, Enterprise generates eager loading methods. You can pass inline callback functions to filter the loaded relation rows with a single SQL query.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">account</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">NewAccount</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">db</span><span class="p">)</span>
+<span class="nx">account</span><span class="p">.</span><span class="nx">Where</span><span class="p">(</span><span class="nx">account</span><span class="p">.</span><span class="nx">IsIDEqual</span><span class="p">(</span><span class="nx">targetID</span><span class="p">))</span>
+
+<span class="c1">// Eagerly load the related Deneme model, filtering it inline</span>
+<span class="nx">account</span><span class="p">.</span><span class="nx">WithDeneme</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">d</span><span class="w"> </span><span class="o">*</span><span class="nx">models</span><span class="p">.</span><span class="nx">Deneme</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">d</span><span class="p">.</span><span class="nx">Where</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">IsActiveEqual</span><span class="p">(</span><span class="kc">true</span><span class="p">))</span>
+<span class="p">})</span>
+
+<span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">account</span><span class="p">.</span><span class="nx">Get</span><span class="p">()</span>
+<span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Access the loaded relation</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">account</span><span class="p">.</span><span class="nx">Deneme</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Deneme Count:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">account</span><span class="p">.</span><span class="nx">Deneme</span><span class="p">.</span><span class="nx">GetCount</span><span class="p">())</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Similarly, you can load a list of related records:</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">deneme</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">NewDeneme</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">db</span><span class="p">)</span>
+<span class="nx">deneme</span><span class="p">.</span><span class="nx">Where</span><span class="p">(</span><span class="nx">deneme</span><span class="p">.</span><span class="nx">IsIDEqual</span><span class="p">(</span><span class="nx">denemeID</span><span class="p">))</span>
+
+<span class="c1">// Eagerly load the related accounts list</span>
+<span class="nx">deneme</span><span class="p">.</span><span class="nx">WithAccountList</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">al</span><span class="w"> </span><span class="o">*</span><span class="nx">models</span><span class="p">.</span><span class="nx">AccountList</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">al</span><span class="p">.</span><span class="nx">Where</span><span class="p">(</span><span class="nx">al</span><span class="p">.</span><span class="nx">IsSurnameEqual</span><span class="p">(</span><span class="s">&quot;Smith&quot;</span><span class="p">))</span>
+<span class="p">})</span>
+
+<span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">deneme</span><span class="p">.</span><span class="nx">Get</span><span class="p">()</span>
+<span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">acc</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">deneme</span><span class="p">.</span><span class="nx">AccountList</span><span class="p">.</span><span class="nx">Items</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Related Account Name:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">acc</span><span class="p">.</span><span class="nx">GetName</span><span class="p">())</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="transform.html" class="btn btn-neutral float-left" title="Transform DB Table to Enterprise Table" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="fields.html" class="btn btn-neutral float-right" title="Supported Fields" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Samet Burgazoglu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

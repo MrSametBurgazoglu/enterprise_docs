@@ -1,0 +1,336 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>List Models &mdash; Enterprise 0.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=049aceee"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Refresh Model" href="refresh.html" />
+    <link rel="prev" title="Delete Model" href="delete.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Enterprise
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud.html">Crud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../generating_models.html">Generating Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../migration.html">Migration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ai_guide.html">AI Agent Integration Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Table</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../table/transform.html">Transform DB Table to Enterprise Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../table/relation.html">DB Relations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../table/fields.html">Supported Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../table/hook.html">How to Hook Database Operations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">CRUD</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="create.html">Create Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="retrieve.html">Retrieve Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="update.html">Update Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="delete.html">Delete Model</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">List Models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#basic-listing">Basic Listing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#paging-and-ordering">Paging and Ordering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#list-with-total-count">List with Total Count</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#distinct-values">Distinct Values</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#record-counting">Record Counting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#aggregates">Aggregates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#custom-aggregates-and-group-by">Custom Aggregates and Group By</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iterating-over-aggregate-result-sets">Iterating Over Aggregate Result Sets</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="refresh.html">Refresh Model</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DB Fields</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../fields/field.html">Base Field Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/boolean.html">Boolean Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/uuid.html">UUID Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/string.html">String Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/integer.html">Integer Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/uint.html">Unsigned Integer Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/enum.html">Enum Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/time.html">Time Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/json.html">Json Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/byte.html">Byte Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/float.html">Float Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/decimal.html">Decimal Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/string_array.html">String Array Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/nillable.html">Nullable Fields (SetNillable)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/default.html">Field Default Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/custom.html">Custom Fields</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Filters</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../filter/advanced_filter.html">Advanced Filtering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../filter/relation.html">Relation Filtering</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Enterprise Postgresql (Pgx)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../postgresql/postgre.html">Enterprise &amp; PostgreSQL</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">How Enterprise Works</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../how/how_to_execute.html">How Enterprise Executes Queries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how/how_to_filter.html">How Enterprise Filters Tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how/pgx.html">Enterprise and pgx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how/atlas.html">Enterprise Schema Migration with Atlas</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Enterprise</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">List Models</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/crud/list.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="list-models">
+<h1>List Models<a class="headerlink" href="#list-models" title="Link to this heading"></a></h1>
+<p>For retrieving and listing models from a table, first import the necessary packages:</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="s">&quot;your/project/models&quot;</span><span class="w"> </span><span class="c1">// your auto-generated models package</span>
+<span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/MrSametBurgazoglu/enterprise/client&quot;</span>
+</pre></div>
+</div>
+<section id="basic-listing">
+<h2>Basic Listing<a class="headerlink" href="#basic-listing" title="Link to this heading"></a></h2>
+<p>Use the generated <code class="docutils literal notranslate"><span class="pre">New[ModelName]List</span></code> function to create a list helper, apply filters with <code class="docutils literal notranslate"><span class="pre">Where</span></code>, and execute <code class="docutils literal notranslate"><span class="pre">List()</span></code> to fetch records.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">db</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">NewDB</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">models</span><span class="p">.</span><span class="nx">Options</span><span class="p">{</span><span class="nx">Url</span><span class="p">:</span><span class="w"> </span><span class="nx">dbUrl</span><span class="p">})</span>
+<span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nx">ctx</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Background</span><span class="p">()</span>
+<span class="nx">accountList</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">NewAccountList</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">db</span><span class="p">)</span>
+
+<span class="c1">// Filter by name</span>
+<span class="nx">accountList</span><span class="p">.</span><span class="nx">Where</span><span class="p">(</span><span class="nx">accountList</span><span class="p">.</span><span class="nx">IsNameEqual</span><span class="p">(</span><span class="s">&quot;samet&quot;</span><span class="p">))</span>
+
+<span class="c1">// Fetch matching rows</span>
+<span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">accountList</span><span class="p">.</span><span class="nx">List</span><span class="p">()</span>
+<span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// Access rows in the Items slice</span>
+<span class="k">for</span><span class="w"> </span><span class="nx">index</span><span class="p">,</span><span class="w"> </span><span class="nx">account</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">accountList</span><span class="p">.</span><span class="nx">Items</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">index</span><span class="p">,</span><span class="w"> </span><span class="nx">account</span><span class="p">.</span><span class="nx">GetSurname</span><span class="p">())</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="paging-and-ordering">
+<h2>Paging and Ordering<a class="headerlink" href="#paging-and-ordering" title="Link to this heading"></a></h2>
+<p>You can apply ordering and pagination limits to query results using the list helper methods.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">accountList</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">NewAccountList</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">db</span><span class="p">)</span>
+
+<span class="c1">// Set ordering</span>
+<span class="nx">accountList</span><span class="p">.</span><span class="nx">Order</span><span class="p">(</span><span class="s">&quot;surname&quot;</span><span class="p">)</span><span class="w">      </span><span class="c1">// ASC</span>
+<span class="nx">accountList</span><span class="p">.</span><span class="nx">OrderDesc</span><span class="p">(</span><span class="s">&quot;serial&quot;</span><span class="p">)</span><span class="w">   </span><span class="c1">// DESC</span>
+
+<span class="c1">// Paginate results</span>
+<span class="nx">accountList</span><span class="p">.</span><span class="nx">Limit</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="nx">accountList</span><span class="p">.</span><span class="nx">Skip</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">accountList</span><span class="p">.</span><span class="nx">List</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="list-with-total-count">
+<h2>List with Total Count<a class="headerlink" href="#list-with-total-count" title="Link to this heading"></a></h2>
+<p>If you need both a paginated subset of records and the total number of matching records in the database, use <code class="docutils literal notranslate"><span class="pre">ListWithTotal</span></code>. This executes a <code class="docutils literal notranslate"><span class="pre">COUNT(*)</span></code> query and a paged list query in sequence.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">accountList</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">NewAccountList</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">db</span><span class="p">)</span>
+<span class="nx">accountList</span><span class="p">.</span><span class="nx">Where</span><span class="p">(</span><span class="nx">accountList</span><span class="p">.</span><span class="nx">IsStatusEqual</span><span class="p">(</span><span class="s">&quot;active&quot;</span><span class="p">))</span>
+
+<span class="c1">// Fetch total count and a single page of results (skip: 10, limit: 5)</span>
+<span class="nx">totalCount</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">accountList</span><span class="p">.</span><span class="nx">ListWithTotal</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span>
+<span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Total active accounts: %d, fetched page size: %d\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">totalCount</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">accountList</span><span class="p">.</span><span class="nx">Items</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="distinct-values">
+<h2>Distinct Values<a class="headerlink" href="#distinct-values" title="Link to this heading"></a></h2>
+<p>Retrieve all distinct values of a specific field as a slice of strings.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">accountList</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">NewAccountList</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">db</span><span class="p">)</span>
+
+<span class="c1">// Get unique surnames, sorted</span>
+<span class="nx">accountList</span><span class="p">.</span><span class="nx">Order</span><span class="p">(</span><span class="s">&quot;surname&quot;</span><span class="p">)</span>
+<span class="nx">surnames</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">accountList</span><span class="p">.</span><span class="nx">DistinctString</span><span class="p">(</span><span class="nx">models</span><span class="p">.</span><span class="nx">AccountTableSurnameField</span><span class="p">)</span>
+<span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Unique Surnames:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">surnames</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="record-counting">
+<h2>Record Counting<a class="headerlink" href="#record-counting" title="Link to this heading"></a></h2>
+<p>Retrieve the count of records matching the current filters.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">accountList</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">NewAccountList</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">db</span><span class="p">)</span>
+<span class="nx">accountList</span><span class="p">.</span><span class="nx">Where</span><span class="p">(</span><span class="nx">accountList</span><span class="p">.</span><span class="nx">IsStatusEqual</span><span class="p">(</span><span class="s">&quot;active&quot;</span><span class="p">))</span>
+
+<span class="nx">count</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">accountList</span><span class="p">.</span><span class="nx">Count</span><span class="p">()</span>
+<span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Active count:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">count</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="aggregates">
+<h2>Aggregates<a class="headerlink" href="#aggregates" title="Link to this heading"></a></h2>
+<p>Model list helpers provide pre-generated methods for standard aggregate calculations:</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">denemeList</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">NewDenemeList</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">db</span><span class="p">)</span>
+<span class="nx">denemeList</span><span class="p">.</span><span class="nx">Where</span><span class="p">(</span><span class="nx">denemeList</span><span class="p">.</span><span class="nx">IsCountGreater</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="c1">// Minimum value</span>
+<span class="nx">minVal</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">denemeList</span><span class="p">.</span><span class="nx">MinCount</span><span class="p">()</span>
+
+<span class="c1">// Maximum value</span>
+<span class="nx">maxVal</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">denemeList</span><span class="p">.</span><span class="nx">MaxCount</span><span class="p">()</span>
+
+<span class="c1">// Sum</span>
+<span class="nx">sumVal</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">denemeList</span><span class="p">.</span><span class="nx">SumCount</span><span class="p">()</span>
+
+<span class="c1">// Average</span>
+<span class="nx">avgVal</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">denemeList</span><span class="p">.</span><span class="nx">AvgCount</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-aggregates-and-group-by">
+<h2>Custom Aggregates and Group By<a class="headerlink" href="#custom-aggregates-and-group-by" title="Link to this heading"></a></h2>
+<p>For more complex calculations, group-by clauses, or SQL expressions, use the custom <code class="docutils literal notranslate"><span class="pre">Aggregate</span></code> builder.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">groupList</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">NewGroupList</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">db</span><span class="p">)</span>
+
+<span class="kd">var</span><span class="w"> </span><span class="nx">countVal</span><span class="w"> </span><span class="kt">int</span>
+<span class="nx">scanFunc</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">groupList</span><span class="p">.</span><span class="nx">Aggregate</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">a</span><span class="w"> </span><span class="o">*</span><span class="nx">client</span><span class="p">.</span><span class="nx">Aggregate</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Run aggregate on a custom SQL expression using client.Raw</span>
+<span class="w">    </span><span class="nx">a</span><span class="p">.</span><span class="nx">Count</span><span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">Raw</span><span class="p">(</span><span class="s">&quot;COALESCE(name, &#39;default&#39;)&quot;</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">countVal</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">a</span><span class="p">.</span><span class="nx">GroupBy</span><span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">Raw</span><span class="p">(</span><span class="s">&quot;COALESCE(name, &#39;default&#39;)&quot;</span><span class="p">))</span>
+<span class="p">})</span>
+<span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// Scan the first row</span>
+<span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">scanFunc</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="iterating-over-aggregate-result-sets">
+<h2>Iterating Over Aggregate Result Sets<a class="headerlink" href="#iterating-over-aggregate-result-sets" title="Link to this heading"></a></h2>
+<p>If your query returns multiple grouped rows, you can iterate over them using <code class="docutils literal notranslate"><span class="pre">AggregateRows</span></code> or Go 1.23’s standard library sequence iterators using <code class="docutils literal notranslate"><span class="pre">AggregateRowsSeq</span></code>.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">groupList</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">NewGroupList</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">db</span><span class="p">)</span>
+
+<span class="c1">// Using Go 1.23 iter.Seq2 sequence iterator</span>
+<span class="kd">var</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="nx">groupName</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">    </span><span class="nx">groupSize</span><span class="w"> </span><span class="kt">int</span>
+<span class="p">)</span>
+
+<span class="nx">iterator</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">groupList</span><span class="p">.</span><span class="nx">AggregateRowsSeq</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">a</span><span class="w"> </span><span class="o">*</span><span class="nx">client</span><span class="p">.</span><span class="nx">Aggregate</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">a</span><span class="p">.</span><span class="nx">Field</span><span class="p">(</span><span class="s">&quot;name&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">groupName</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">a</span><span class="p">.</span><span class="nx">Count</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">groupSize</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">a</span><span class="p">.</span><span class="nx">GroupBy</span><span class="p">(</span><span class="s">&quot;name&quot;</span><span class="p">)</span>
+<span class="p">})</span>
+
+<span class="k">for</span><span class="w"> </span><span class="nx">index</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">iterator</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Group %d: Name: %s, Size: %d\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">index</span><span class="p">,</span><span class="w"> </span><span class="nx">groupName</span><span class="p">,</span><span class="w"> </span><span class="nx">groupSize</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="delete.html" class="btn btn-neutral float-left" title="Delete Model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="refresh.html" class="btn btn-neutral float-right" title="Refresh Model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Samet Burgazoglu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

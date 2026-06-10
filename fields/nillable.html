@@ -1,0 +1,248 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nullable Fields (SetNillable) &mdash; Enterprise 0.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=049aceee"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Field Default Values" href="default.html" />
+    <link rel="prev" title="String Array Field" href="string_array.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Enterprise
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud.html">Crud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../generating_models.html">Generating Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../migration.html">Migration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ai_guide.html">AI Agent Integration Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Table</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../table/transform.html">Transform DB Table to Enterprise Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../table/relation.html">DB Relations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../table/fields.html">Supported Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../table/hook.html">How to Hook Database Operations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">CRUD</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../crud/create.html">Create Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/retrieve.html">Retrieve Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/update.html">Update Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/delete.html">Delete Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/list.html">List Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/refresh.html">Refresh Model</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DB Fields</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="field.html">Base Field Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boolean.html">Boolean Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uuid.html">UUID Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="string.html">String Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integer.html">Integer Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uint.html">Unsigned Integer Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="enum.html">Enum Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="time.html">Time Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="json.html">Json Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="byte.html">Byte Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="float.html">Float Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="decimal.html">Decimal Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="string_array.html">String Array Field</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Nullable Fields (SetNillable)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#declaring-nullable-fields">Declaring Nullable Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#handling-nulls-in-code">Handling Nulls in Code</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#setting-nullable-fields">Setting Nullable Fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reading-nullable-fields">Reading Nullable Fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#null-filters-in-predicates">Null Filters in Predicates</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="default.html">Field Default Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom.html">Custom Fields</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Filters</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../filter/advanced_filter.html">Advanced Filtering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../filter/relation.html">Relation Filtering</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Enterprise Postgresql (Pgx)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../postgresql/postgre.html">Enterprise &amp; PostgreSQL</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">How Enterprise Works</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../how/how_to_execute.html">How Enterprise Executes Queries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how/how_to_filter.html">How Enterprise Filters Tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how/pgx.html">Enterprise and pgx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how/atlas.html">Enterprise Schema Migration with Atlas</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Enterprise</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Nullable Fields (SetNillable)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/fields/nillable.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="nullable-fields-setnillable">
+<h1>Nullable Fields (SetNillable)<a class="headerlink" href="#nullable-fields-setnillable" title="Link to this heading"></a></h1>
+<p>By default, Enterprise generates fields using non-pointer Go types (e.g. <code class="docutils literal notranslate"><span class="pre">string</span></code>, <code class="docutils literal notranslate"><span class="pre">int</span></code>, <code class="docutils literal notranslate"><span class="pre">bool</span></code>). These columns are defined as <code class="docutils literal notranslate"><span class="pre">NOT</span> <span class="pre">NULL</span></code> in the database schema.</p>
+<p>To allow database columns to store <code class="docutils literal notranslate"><span class="pre">NULL</span></code>, you must declare them as nullable by chaining the <code class="docutils literal notranslate"><span class="pre">SetNillable()</span></code> method on the field builder.</p>
+<section id="declaring-nullable-fields">
+<h2>Declaring Nullable Fields<a class="headerlink" href="#declaring-nullable-fields" title="Link to this heading"></a></h2>
+<p>Chaining <code class="docutils literal notranslate"><span class="pre">SetNillable()</span></code> changes the generated Go struct type to a <strong>pointer type</strong>, allowing the field to represent a <code class="docutils literal notranslate"><span class="pre">nil</span></code> value.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// db_models/account.go</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">Account</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="nx">models</span><span class="p">.</span><span class="nx">Table</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">models</span><span class="p">.</span><span class="nx">Table</span><span class="p">{</span>
+<span class="w">        </span><span class="nx">Fields</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="nx">models</span><span class="p">.</span><span class="nx">FieldI</span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// Generates as: ID uuid.UUID (NOT NULL)</span>
+<span class="w">            </span><span class="nx">models</span><span class="p">.</span><span class="nx">UUIDField</span><span class="p">(</span><span class="s">&quot;ID&quot;</span><span class="p">),</span>
+
+<span class="w">            </span><span class="c1">// Generates as: Name string (NOT NULL)</span>
+<span class="w">            </span><span class="nx">models</span><span class="p">.</span><span class="nx">StringField</span><span class="p">(</span><span class="s">&quot;Name&quot;</span><span class="p">),</span>
+
+<span class="w">            </span><span class="c1">// Generates as: Surname *string (NULL)</span>
+<span class="w">            </span><span class="nx">models</span><span class="p">.</span><span class="nx">StringField</span><span class="p">(</span><span class="s">&quot;Surname&quot;</span><span class="p">).</span><span class="nx">SetNillable</span><span class="p">(),</span>
+
+<span class="w">            </span><span class="c1">// Generates as: MiddleName *string (NULL) with custom column name</span>
+<span class="w">            </span><span class="nx">models</span><span class="p">.</span><span class="nx">StringField</span><span class="p">(</span><span class="s">&quot;MiddleName&quot;</span><span class="p">).</span><span class="nx">SetDBName</span><span class="p">(</span><span class="s">&quot;middle_name&quot;</span><span class="p">).</span><span class="nx">SetNillable</span><span class="p">(),</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="handling-nulls-in-code">
+<h2>Handling Nulls in Code<a class="headerlink" href="#handling-nulls-in-code" title="Link to this heading"></a></h2>
+<p>When using generated models, nullable fields are accessed using pointers. Getter and setter methods handle pointers appropriately.</p>
+<section id="setting-nullable-fields">
+<h3>Setting Nullable Fields<a class="headerlink" href="#setting-nullable-fields" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">account</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">NewAccount</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">db</span><span class="p">)</span>
+
+<span class="c1">// Set a non-null value</span>
+<span class="nx">surname</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;Smith&quot;</span>
+<span class="nx">account</span><span class="p">.</span><span class="nx">SetSurname</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">surname</span><span class="p">)</span>
+
+<span class="c1">// Set to null</span>
+<span class="nx">account</span><span class="p">.</span><span class="nx">SetSurname</span><span class="p">(</span><span class="kc">nil</span><span class="p">)</span>
+
+<span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">account</span><span class="p">.</span><span class="nx">Create</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="reading-nullable-fields">
+<h3>Reading Nullable Fields<a class="headerlink" href="#reading-nullable-fields" title="Link to this heading"></a></h3>
+<p>To avoid nil pointer dereferences, always check if a nullable field is nil before dereferencing:</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">account</span><span class="p">.</span><span class="nx">Get</span><span class="p">()</span>
+<span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">account</span><span class="p">.</span><span class="nx">GetSurname</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Surname:&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="nx">account</span><span class="p">.</span><span class="nx">GetSurname</span><span class="p">())</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Surname is NULL&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="null-filters-in-predicates">
+<h3>Null Filters in Predicates<a class="headerlink" href="#null-filters-in-predicates" title="Link to this heading"></a></h3>
+<p>For every nullable field, the generator emits predicate helpers to query for <code class="docutils literal notranslate"><span class="pre">IS</span> <span class="pre">NULL</span></code> and <code class="docutils literal notranslate"><span class="pre">IS</span> <span class="pre">NOT</span> <span class="pre">NULL</span></code> conditions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Is[FieldName]Nil()</span></code> maps to <code class="docutils literal notranslate"><span class="pre">&quot;column&quot;</span> <span class="pre">IS</span> <span class="pre">NULL</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Is[FieldName]NotNil()</span></code> maps to <code class="docutils literal notranslate"><span class="pre">&quot;column&quot;</span> <span class="pre">IS</span> <span class="pre">NOT</span> <span class="pre">NULL</span></code></p></li>
+</ul>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">list</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">NewAccountList</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">db</span><span class="p">)</span>
+
+<span class="c1">// Find all accounts where Surname is NULL</span>
+<span class="nx">list</span><span class="p">.</span><span class="nx">Where</span><span class="p">(</span><span class="nx">list</span><span class="p">.</span><span class="nx">IsSurnameNil</span><span class="p">())</span>
+<span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">list</span><span class="p">.</span><span class="nx">List</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="string_array.html" class="btn btn-neutral float-left" title="String Array Field" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="default.html" class="btn btn-neutral float-right" title="Field Default Values" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Samet Burgazoglu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

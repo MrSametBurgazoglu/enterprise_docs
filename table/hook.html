@@ -1,0 +1,269 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to Hook Database Operations &mdash; Enterprise 0.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=049aceee"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Create Model" href="../crud/create.html" />
+    <link rel="prev" title="Supported Fields" href="fields.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Enterprise
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud.html">Crud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../generating_models.html">Generating Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../migration.html">Migration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ai_guide.html">AI Agent Integration Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Table</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="transform.html">Transform DB Table to Enterprise Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relation.html">DB Relations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fields.html">Supported Fields</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">How to Hook Database Operations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#registering-hooks">Registering Hooks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#registering-a-single-entity-hook">Registering a Single Entity Hook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#registering-a-list-hook">Registering a List Hook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#use-cases-for-hooks">Use Cases for Hooks</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">CRUD</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../crud/create.html">Create Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/retrieve.html">Retrieve Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/update.html">Update Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/delete.html">Delete Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/list.html">List Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/refresh.html">Refresh Model</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DB Fields</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../fields/field.html">Base Field Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/boolean.html">Boolean Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/uuid.html">UUID Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/string.html">String Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/integer.html">Integer Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/uint.html">Unsigned Integer Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/enum.html">Enum Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/time.html">Time Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/json.html">Json Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/byte.html">Byte Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/float.html">Float Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/decimal.html">Decimal Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/string_array.html">String Array Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/nillable.html">Nullable Fields (SetNillable)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/default.html">Field Default Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/custom.html">Custom Fields</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Filters</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../filter/advanced_filter.html">Advanced Filtering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../filter/relation.html">Relation Filtering</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Enterprise Postgresql (Pgx)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../postgresql/postgre.html">Enterprise &amp; PostgreSQL</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">How Enterprise Works</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../how/how_to_execute.html">How Enterprise Executes Queries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how/how_to_filter.html">How Enterprise Filters Tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how/pgx.html">Enterprise and pgx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how/atlas.html">Enterprise Schema Migration with Atlas</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Enterprise</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">How to Hook Database Operations</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/table/hook.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="how-to-hook-database-operations">
+<h1>How to Hook Database Operations<a class="headerlink" href="#how-to-hook-database-operations" title="Link to this heading"></a></h1>
+<p>Enterprise provides an advanced hooks system that intercepts all database mutations (inserts, updates, deletes, retrieves, and listings). This lets you inject validation logic, modify entity fields before saving, implement auditing, or trigger side effects.</p>
+<section id="registering-hooks">
+<h2>Registering Hooks<a class="headerlink" href="#registering-hooks" title="Link to this heading"></a></h2>
+<p>Enterprise generates package-level hook functions and registration setters for every model. Hooks are executed around the actual SQL operation.</p>
+<p>A hook function receives:
+1. The request <code class="docutils literal notranslate"><span class="pre">context.Context</span></code>
+2. An <code class="docutils literal notranslate"><span class="pre">*client.OperationInfo</span></code> containing the table name and the type of operation (Create, Update, Delete, etc.)
+3. The model instance being mutated
+4. An <cite>operationFunc</cite> callback representing the database action. You <strong>must</strong> call this function to commit the action, or return an error to abort it.</p>
+<section id="registering-a-single-entity-hook">
+<h3>Registering a Single Entity Hook<a class="headerlink" href="#registering-a-single-entity-hook" title="Link to this heading"></a></h3>
+<p>For a model named <code class="docutils literal notranslate"><span class="pre">Account</span></code>, use <code class="docutils literal notranslate"><span class="pre">SetDatabaseAccountOperationHook</span></code>:</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;context&quot;</span>
+<span class="w">    </span><span class="s">&quot;errors&quot;</span>
+<span class="w">    </span><span class="s">&quot;log&quot;</span>
+<span class="w">    </span><span class="s">&quot;time&quot;</span>
+
+<span class="w">    </span><span class="s">&quot;github.com/MrSametBurgazoglu/enterprise/client&quot;</span>
+<span class="w">    </span><span class="s">&quot;your/project/models&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Register the hook at application startup</span>
+<span class="w">    </span><span class="nx">models</span><span class="p">.</span><span class="nx">SetDatabaseAccountOperationHook</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span>
+<span class="w">        </span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">opInfo</span><span class="w"> </span><span class="o">*</span><span class="nx">client</span><span class="p">.</span><span class="nx">OperationInfo</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">model</span><span class="w"> </span><span class="o">*</span><span class="nx">models</span><span class="p">.</span><span class="nx">Account</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">operationFunc</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="kt">error</span><span class="p">,</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="kt">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">log</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Executing %s on table %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">opInfo</span><span class="p">.</span><span class="nx">OperationType</span><span class="p">,</span><span class="w"> </span><span class="nx">opInfo</span><span class="p">.</span><span class="nx">TableName</span><span class="p">)</span>
+
+<span class="w">        </span><span class="c1">// 1. Pre-execution logic: Validation</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">opInfo</span><span class="p">.</span><span class="nx">OperationType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">OperationTypeUpdate</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">opInfo</span><span class="p">.</span><span class="nx">OperationType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">OperationTypeCreate</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nx">model</span><span class="p">.</span><span class="nx">GetName</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="nx">errors</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="s">&quot;account name cannot be empty&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="c1">// 2. Pre-execution logic: Modify fields (e.g. Audit Fields)</span>
+<span class="w">        </span><span class="c1">// If you have a last_modified timestamp, you can set it here</span>
+
+<span class="w">        </span><span class="c1">// 3. Execute the actual SQL query</span>
+<span class="w">        </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">operationFunc</span><span class="p">()</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">log</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Database operation failed: %v&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nx">err</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="c1">// 4. Post-execution logic: Auditing or side-effects</span>
+<span class="w">        </span><span class="nx">log</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Successfully completed %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">opInfo</span><span class="p">.</span><span class="nx">OperationType</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="registering-a-list-hook">
+<h3>Registering a List Hook<a class="headerlink" href="#registering-a-list-hook" title="Link to this heading"></a></h3>
+<p>To hook operations performed on model slices (such as bulk creates, bulk deletes, or list fetches), register a list hook using <code class="docutils literal notranslate"><span class="pre">SetDatabase[ModelName]ListOperationHook</span></code>:</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">models</span><span class="p">.</span><span class="nx">SetDatabaseAccountListOperationHook</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span>
+<span class="w">    </span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">opInfo</span><span class="w"> </span><span class="o">*</span><span class="nx">client</span><span class="p">.</span><span class="nx">OperationInfo</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">modelList</span><span class="w"> </span><span class="o">*</span><span class="nx">models</span><span class="p">.</span><span class="nx">AccountList</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">operationFunc</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="kt">error</span><span class="p">,</span>
+<span class="p">)</span><span class="w"> </span><span class="kt">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Intercept bulk insertions</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">opInfo</span><span class="p">.</span><span class="nx">OperationType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">OperationTypeBulkCreate</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">acc</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">modelList</span><span class="p">.</span><span class="nx">Items</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nx">acc</span><span class="p">.</span><span class="nx">GetSurname</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="nx">errors</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="s">&quot;all bulk-inserted accounts must have a surname&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">operationFunc</span><span class="p">()</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="use-cases-for-hooks">
+<h2>Use Cases for Hooks<a class="headerlink" href="#use-cases-for-hooks" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Auto-populating UUIDs or Timestamps</strong>:
+You can auto-populate creation/modification timestamps when calling <cite>Create</cite> or <cite>Update</cite>.</p></li>
+<li><p><strong>Field Encryption/Hashing</strong>:
+Encrypt or hash sensitive data (such as user passwords) before inserting them into the database.</p></li>
+<li><p><strong>Soft Deletes</strong>:
+Change a <cite>Delete</cite> operation into an <cite>Update</cite> operation that toggles an <cite>is_deleted</cite> flag (by returning custom updates and omitting the original <cite>operationFunc</cite> call).</p></li>
+<li><p><strong>Data Normalization</strong>:
+Lowercase email addresses or trim trailing spaces on string columns before writing.</p></li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="fields.html" class="btn btn-neutral float-left" title="Supported Fields" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../crud/create.html" class="btn btn-neutral float-right" title="Create Model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Samet Burgazoglu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

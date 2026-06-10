@@ -1,0 +1,448 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Agent Integration Guide &mdash; Enterprise 0.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=049aceee"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Transform DB Table to Enterprise Table" href="table/transform.html" />
+    <link rel="prev" title="Benchmark" href="benchmark.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Enterprise
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crud.html">Crud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generating_models.html">Generating Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migration.html">Migration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmark.html">Benchmark</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">AI Agent Integration Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#directory-pattern">Directory Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#defining-tables-schemas">Defining Tables (Schemas)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#schema-rules-guidelines">Schema Rules &amp; Guidelines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#supported-fields">Supported Fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#declaring-relationships">Declaring Relationships</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-schema-db-models-account-go">Example Schema: <code class="docutils literal notranslate"><span class="pre">db_models/account.go</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#code-generation-workflow">Code Generation Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#database-setup-migrations">Database Setup &amp; Migrations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#eager-relation-loading-eager-filtering">Eager Relation Loading &amp; Eager Filtering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#query-predicates-logical-composition">Query Predicates &amp; Logical Composition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bulk-and-in-database-operations">Bulk and In-Database Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#aggregates-and-iterators-go-1-23">Aggregates and Iterators (Go 1.23)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#model-convenience-methods">Model Convenience Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#group-by-and-go-1-23-iter-seq2-iterators">Group By and Go 1.23 iter.Seq2 Iterators</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Table</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="table/transform.html">Transform DB Table to Enterprise Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="table/relation.html">DB Relations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="table/fields.html">Supported Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="table/hook.html">How to Hook Database Operations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">CRUD</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="crud/create.html">Create Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crud/retrieve.html">Retrieve Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crud/update.html">Update Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crud/delete.html">Delete Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crud/list.html">List Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crud/refresh.html">Refresh Model</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DB Fields</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="fields/field.html">Base Field Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fields/boolean.html">Boolean Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fields/uuid.html">UUID Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fields/string.html">String Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fields/integer.html">Integer Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fields/uint.html">Unsigned Integer Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fields/enum.html">Enum Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fields/time.html">Time Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fields/json.html">Json Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fields/byte.html">Byte Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fields/float.html">Float Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fields/decimal.html">Decimal Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fields/string_array.html">String Array Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fields/nillable.html">Nullable Fields (SetNillable)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fields/default.html">Field Default Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fields/custom.html">Custom Fields</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Filters</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="filter/advanced_filter.html">Advanced Filtering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filter/relation.html">Relation Filtering</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Enterprise Postgresql (Pgx)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="postgresql/postgre.html">Enterprise &amp; PostgreSQL</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">How Enterprise Works</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="how/how_to_execute.html">How Enterprise Executes Queries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how/how_to_filter.html">How Enterprise Filters Tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how/pgx.html">Enterprise and pgx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how/atlas.html">Enterprise Schema Migration with Atlas</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Enterprise</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">AI Agent Integration Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/ai_guide.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ai-agent-integration-guide">
+<h1>AI Agent Integration Guide<a class="headerlink" href="#ai-agent-integration-guide" title="Link to this heading"></a></h1>
+<p>This guide is designed for AI coding assistants and developers. It outlines the directory patterns, model definition conventions, code generation workflows, and query APIs of the Enterprise ORM.</p>
+<section id="directory-pattern">
+<h2>Directory Pattern<a class="headerlink" href="#directory-pattern" title="Link to this heading"></a></h2>
+<p>Projects utilizing the Enterprise ORM must adhere to the following standard layout:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>your-project/
+├── db_models/        # 1. Human-defined database table definitions (schema definitions)
+│   ├── account.go
+│   ├── group.go
+│   └── constants.go  # Helper constants for table &amp; column names
+├── generate/         # 2. Code-generation entrypoint
+│   └── generate.go   # Program containing main() that executes model generation
+├── models/           # 3. Auto-generated ORM packages (DO NOT edit manually)
+│   ├── client.go     # Database initialization, transactions, and SQL loggers
+│   ├── account.go    # Model struct, getters, setters, hooks, and list/bulk operations
+│   └── account_predicates.go  # Code-generated WHERE filters for the model
+├── migrate/          # 4. Schema migrations runner
+│   └── migrate.go    # Program to compute diffs and run migrations
+└── main.go           # Application entrypoint
+</pre></div>
+</div>
+</section>
+<section id="defining-tables-schemas">
+<h2>Defining Tables (Schemas)<a class="headerlink" href="#defining-tables-schemas" title="Link to this heading"></a></h2>
+<p>Table schemas are defined as Go functions under the <code class="docutils literal notranslate"><span class="pre">db_models</span></code> package. Each function returns a <code class="docutils literal notranslate"><span class="pre">*models.Table</span></code>.</p>
+<section id="schema-rules-guidelines">
+<h3>Schema Rules &amp; Guidelines<a class="headerlink" href="#schema-rules-guidelines" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p><strong>Quoting &amp; Keyword Safety</strong>: Enterprise automatically double-quotes all table and column names in SQL. Always specify identifiers exactly as they should appear in DB.</p></li>
+<li><p><strong>Primary Keys</strong>: Every table must have a primary key defined via <code class="docutils literal notranslate"><span class="pre">SetIDField()</span></code>.</p></li>
+<li><p><strong>Builder Chaining</strong>: Field builders return instances supporting method chaining (<code class="docutils literal notranslate"><span class="pre">SetNillable()</span></code>, <code class="docutils literal notranslate"><span class="pre">AddSerial()</span></code>, <code class="docutils literal notranslate"><span class="pre">Default()</span></code>, <code class="docutils literal notranslate"><span class="pre">DefaultFunc()</span></code>).</p></li>
+</ol>
+</section>
+<section id="supported-fields">
+<h3>Supported Fields<a class="headerlink" href="#supported-fields" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Boolean</strong>: <code class="docutils literal notranslate"><span class="pre">models.BoolField(name)</span></code></p></li>
+<li><p><strong>Byte</strong>: <code class="docutils literal notranslate"><span class="pre">models.ByteField(name)</span></code></p></li>
+<li><p><strong>UUID</strong>: <code class="docutils literal notranslate"><span class="pre">models.UUIDField(name)</span></code></p></li>
+<li><p><strong>Integers</strong>: <code class="docutils literal notranslate"><span class="pre">models.IntField(name)</span></code>, <code class="docutils literal notranslate"><span class="pre">models.SmallIntField(name)</span></code>, <code class="docutils literal notranslate"><span class="pre">models.BigIntField(name)</span></code></p></li>
+<li><p><strong>Unsigned Integer</strong>: <code class="docutils literal notranslate"><span class="pre">models.UintField(name)</span></code></p></li>
+<li><p><strong>Floats</strong>: <code class="docutils literal notranslate"><span class="pre">models.Float32Field(name)</span></code>, <code class="docutils literal notranslate"><span class="pre">models.Float64Field(name)</span></code></p></li>
+<li><p><strong>String</strong>: <code class="docutils literal notranslate"><span class="pre">models.StringField(name)</span></code></p></li>
+<li><p><strong>Decimal</strong>: <code class="docutils literal notranslate"><span class="pre">models.DecimalField(name,</span> <span class="pre">precision,</span> <span class="pre">scale)</span></code></p></li>
+<li><p><strong>String Array</strong>: <code class="docutils literal notranslate"><span class="pre">models.StringArrayField(name)</span></code></p></li>
+<li><p><strong>Enum</strong>: <code class="docutils literal notranslate"><span class="pre">models.EnumField(name,</span> <span class="pre">stringSlice)</span></code></p></li>
+<li><p><strong>Time</strong>: <code class="docutils literal notranslate"><span class="pre">models.TimeField(name)</span></code></p></li>
+<li><p><strong>JSON</strong>: <code class="docutils literal notranslate"><span class="pre">models.JSONField(name)</span></code></p></li>
+<li><p><strong>Custom Type</strong>: <code class="docutils literal notranslate"><span class="pre">models.CustomField(name,</span> <span class="pre">postgresType,</span> <span class="pre">valueScannerInstance)</span></code> (requires implementing <code class="docutils literal notranslate"><span class="pre">sql.Scanner</span></code> and <code class="docutils literal notranslate"><span class="pre">driver.Valuer</span></code>)</p></li>
+</ul>
+</section>
+<section id="declaring-relationships">
+<h3>Declaring Relationships<a class="headerlink" href="#declaring-relationships" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Many-to-One</strong>: <code class="docutils literal notranslate"><span class="pre">models.ManyToOne(targetTable,</span> <span class="pre">targetPK,</span> <span class="pre">sourceFK)</span></code></p></li>
+<li><p><strong>One-to-Many</strong>: <code class="docutils literal notranslate"><span class="pre">models.OneToMany(targetTable,</span> <span class="pre">sourcePK,</span> <span class="pre">targetFK)</span></code></p></li>
+<li><p><strong>Many-to-Many</strong>: <code class="docutils literal notranslate"><span class="pre">models.ManyToMany(targetTable,</span> <span class="pre">sourceFK,</span> <span class="pre">targetFK,</span> <span class="pre">targetPK,</span> <span class="pre">joinTableName)</span></code></p></li>
+</ul>
+</section>
+<section id="example-schema-db-models-account-go">
+<h3>Example Schema: <code class="docutils literal notranslate"><span class="pre">db_models/account.go</span></code><a class="headerlink" href="#example-schema-db-models-account-go" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span><span class="w"> </span><span class="nx">db_models</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;github.com/MrSametBurgazoglu/enterprise/models&quot;</span>
+<span class="w">    </span><span class="s">&quot;github.com/google/uuid&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">Account</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="nx">models</span><span class="p">.</span><span class="nx">Table</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">idField</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">UUIDField</span><span class="p">(</span><span class="s">&quot;ID&quot;</span><span class="p">).</span><span class="nx">DefaultFunc</span><span class="p">(</span><span class="nx">uuid</span><span class="p">.</span><span class="nx">New</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">tb</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">models</span><span class="p">.</span><span class="nx">Table</span><span class="p">{</span>
+<span class="w">        </span><span class="nx">Fields</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="nx">models</span><span class="p">.</span><span class="nx">FieldI</span><span class="p">{</span>
+<span class="w">            </span><span class="nx">idField</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">models</span><span class="p">.</span><span class="nx">StringField</span><span class="p">(</span><span class="s">&quot;Name&quot;</span><span class="p">),</span>
+<span class="w">            </span><span class="nx">models</span><span class="p">.</span><span class="nx">StringField</span><span class="p">(</span><span class="s">&quot;Surname&quot;</span><span class="p">),</span>
+<span class="w">            </span><span class="nx">models</span><span class="p">.</span><span class="nx">UUIDField</span><span class="p">(</span><span class="s">&quot;DenemeID&quot;</span><span class="p">).</span><span class="nx">SetNillable</span><span class="p">(),</span>
+<span class="w">            </span><span class="nx">models</span><span class="p">.</span><span class="nx">UintField</span><span class="p">(</span><span class="s">&quot;Serial&quot;</span><span class="p">).</span><span class="nx">AddSerial</span><span class="p">(),</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nx">Relations</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="o">*</span><span class="nx">models</span><span class="p">.</span><span class="nx">Relation</span><span class="p">{</span>
+<span class="w">            </span><span class="nx">models</span><span class="p">.</span><span class="nx">ManyToOne</span><span class="p">(</span><span class="s">&quot;Deneme&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;deneme_id&quot;</span><span class="p">),</span>
+<span class="w">            </span><span class="nx">models</span><span class="p">.</span><span class="nx">ManyToMany</span><span class="p">(</span><span class="s">&quot;Group&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;account_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;group_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;account_group&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">tb</span><span class="p">.</span><span class="nx">SetTableName</span><span class="p">(</span><span class="s">&quot;account&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">tb</span><span class="p">.</span><span class="nx">SetIDField</span><span class="p">(</span><span class="nx">idField</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">tb</span><span class="p">.</span><span class="nx">AddIndex</span><span class="p">(</span><span class="s">&quot;account_name_surname_idx&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Name&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Surname&quot;</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">tb</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="code-generation-workflow">
+<h2>Code Generation Workflow<a class="headerlink" href="#code-generation-workflow" title="Link to this heading"></a></h2>
+<p>The generator script executes model generation. Create <code class="docutils literal notranslate"><span class="pre">generate/generate.go</span></code>:</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;github.com/MrSametBurgazoglu/enterprise/generate&quot;</span>
+<span class="w">    </span><span class="s">&quot;your-project/db_models&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">generate</span><span class="p">.</span><span class="nx">Models</span><span class="p">(</span>
+<span class="w">        </span><span class="nx">db_models</span><span class="p">.</span><span class="nx">Account</span><span class="p">(),</span>
+<span class="w">        </span><span class="nx">db_models</span><span class="p">.</span><span class="nx">Group</span><span class="p">(),</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Run the script from your terminal:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>go<span class="w"> </span>run<span class="w"> </span>generate/generate.go
+</pre></div>
+</div>
+<p>This automatically compiles the templates and writes out the complete <code class="docutils literal notranslate"><span class="pre">models/</span></code> Go files.</p>
+</section>
+<section id="database-setup-migrations">
+<h2>Database Setup &amp; Migrations<a class="headerlink" href="#database-setup-migrations" title="Link to this heading"></a></h2>
+<p>Initialize the database using <code class="docutils literal notranslate"><span class="pre">models.Options</span></code> and run auto-applied or file-based migrations.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;context&quot;</span>
+<span class="w">    </span><span class="s">&quot;log&quot;</span>
+
+<span class="w">    </span><span class="s">&quot;github.com/MrSametBurgazoglu/enterprise/migrate&quot;</span>
+<span class="w">    </span><span class="s">&quot;your-project/db_models&quot;</span>
+<span class="w">    </span><span class="s">&quot;your-project/models&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">ctx</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Background</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">postgresURL</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;postgresql://user:pass@localhost:5432/db?sslmode=disable&quot;</span>
+
+<span class="w">    </span><span class="nx">tables</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">[]</span><span class="o">*</span><span class="nx">models</span><span class="p">.</span><span class="nx">Table</span><span class="p">{</span>
+<span class="w">        </span><span class="nx">db_models</span><span class="p">.</span><span class="nx">Account</span><span class="p">(),</span>
+<span class="w">        </span><span class="nx">db_models</span><span class="p">.</span><span class="nx">Group</span><span class="p">(),</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">migrate</span><span class="p">.</span><span class="nx">AutoApplyMigration</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">postgresURL</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;init_schema&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">tables</span><span class="o">...</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">opts</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">models</span><span class="p">.</span><span class="nx">Options</span><span class="p">{</span>
+<span class="w">        </span><span class="nx">Url</span><span class="p">:</span><span class="w">   </span><span class="nx">postgresURL</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">Debug</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">db</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">NewDB</span><span class="p">(</span><span class="nx">opts</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">Exit</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="eager-relation-loading-eager-filtering">
+<h2>Eager Relation Loading &amp; Eager Filtering<a class="headerlink" href="#eager-relation-loading-eager-filtering" title="Link to this heading"></a></h2>
+<p>To load child relations and filter them dynamically in a <strong>single query</strong> (preventing N+1 query patterns), use the <code class="docutils literal notranslate"><span class="pre">With[RelationName]</span></code> methods.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">account</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">NewAccount</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">db</span><span class="p">)</span>
+<span class="nx">account</span><span class="p">.</span><span class="nx">Where</span><span class="p">(</span><span class="nx">account</span><span class="p">.</span><span class="nx">IsIDEqual</span><span class="p">(</span><span class="nx">accountID</span><span class="p">))</span>
+
+<span class="c1">// Join and filter relations inline</span>
+<span class="nx">account</span><span class="p">.</span><span class="nx">WithDeneme</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">d</span><span class="w"> </span><span class="o">*</span><span class="nx">models</span><span class="p">.</span><span class="nx">Deneme</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">d</span><span class="p">.</span><span class="nx">Where</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">IsActiveEqual</span><span class="p">(</span><span class="kc">true</span><span class="p">))</span>
+<span class="p">})</span>
+<span class="nx">account</span><span class="p">.</span><span class="nx">WithGroupList</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">gl</span><span class="w"> </span><span class="o">*</span><span class="nx">models</span><span class="p">.</span><span class="nx">GroupList</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">gl</span><span class="p">.</span><span class="nx">Where</span><span class="p">(</span><span class="nx">gl</span><span class="p">.</span><span class="nx">IsNameEqual</span><span class="p">(</span><span class="s">&quot;Admin Group&quot;</span><span class="p">))</span>
+<span class="p">})</span>
+
+<span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">account</span><span class="p">.</span><span class="nx">Get</span><span class="p">()</span>
+<span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">account</span><span class="p">.</span><span class="nx">Deneme</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Active Deneme:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">account</span><span class="p">.</span><span class="nx">Deneme</span><span class="p">.</span><span class="nx">GetID</span><span class="p">())</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="query-predicates-logical-composition">
+<h2>Query Predicates &amp; Logical Composition<a class="headerlink" href="#query-predicates-logical-composition" title="Link to this heading"></a></h2>
+<p>Where clauses accept a list of <code class="docutils literal notranslate"><span class="pre">client.PredicateI</span></code> interfaces.</p>
+<ul class="simple">
+<li><p><strong>Logical Composition</strong>: Nest queries using <code class="docutils literal notranslate"><span class="pre">models.And(...)</span></code> and <code class="docutils literal notranslate"><span class="pre">models.Or(...)</span></code>.</p></li>
+<li><p><strong>Dynamic Filters</strong>: Use <code class="docutils literal notranslate"><span class="pre">WhereIf(cond,</span> <span class="pre">predicate)</span></code> and <code class="docutils literal notranslate"><span class="pre">WhereIn(cond,</span> <span class="pre">predicate)</span></code> to append predicates only if <code class="docutils literal notranslate"><span class="pre">cond</span> <span class="pre">==</span> <span class="pre">true</span></code>.</p></li>
+<li><p><strong>Zero Predicates</strong>: Calling <code class="docutils literal notranslate"><span class="pre">Where()</span></code> with no arguments behaves as a no-op (no SQL WHERE clause).</p></li>
+<li><p><strong>Wildcards</strong>: Use case-sensitive <code class="docutils literal notranslate"><span class="pre">IsXLike</span></code> and case-insensitive <code class="docutils literal notranslate"><span class="pre">IsXILike</span></code> pattern matching.</p></li>
+</ul>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">list</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">NewAccountList</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">db</span><span class="p">)</span>
+
+<span class="nx">list</span><span class="p">.</span><span class="nx">Where</span><span class="p">(</span>
+<span class="w">    </span><span class="nx">models</span><span class="p">.</span><span class="nx">And</span><span class="p">(</span>
+<span class="w">        </span><span class="nx">models</span><span class="p">.</span><span class="nx">Or</span><span class="p">(</span>
+<span class="w">            </span><span class="nx">list</span><span class="p">.</span><span class="nx">IsNameEqual</span><span class="p">(</span><span class="s">&quot;Samet&quot;</span><span class="p">),</span>
+<span class="w">            </span><span class="nx">list</span><span class="p">.</span><span class="nx">IsNameILike</span><span class="p">(</span><span class="s">&quot;admin%&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="p">),</span>
+<span class="w">        </span><span class="nx">list</span><span class="p">.</span><span class="nx">IsSerialGreater</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+<span class="w">    </span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="nx">list</span><span class="p">.</span><span class="nx">WhereIf</span><span class="p">(</span><span class="nx">filterByStatus</span><span class="p">,</span><span class="w"> </span><span class="nx">list</span><span class="p">.</span><span class="nx">IsStatusEqual</span><span class="p">(</span><span class="s">&quot;active&quot;</span><span class="p">))</span>
+<span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">list</span><span class="p">.</span><span class="nx">List</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="bulk-and-in-database-operations">
+<h2>Bulk and In-Database Operations<a class="headerlink" href="#bulk-and-in-database-operations" title="Link to this heading"></a></h2>
+<p>Avoid loading entities into memory for bulk inserts, updates, or deletes.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">list</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">NewAccountList</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">db</span><span class="p">)</span>
+
+<span class="c1">// Bulk Create</span>
+<span class="nx">acc1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">NewAccount</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">db</span><span class="p">)</span>
+<span class="nx">acc1</span><span class="p">.</span><span class="nx">SetName</span><span class="p">(</span><span class="s">&quot;Alice&quot;</span><span class="p">)</span>
+<span class="nx">acc2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">NewAccount</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">db</span><span class="p">)</span>
+<span class="nx">acc2</span><span class="p">.</span><span class="nx">SetName</span><span class="p">(</span><span class="s">&quot;Bob&quot;</span><span class="p">)</span>
+<span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">list</span><span class="p">.</span><span class="nx">Create</span><span class="p">(</span><span class="nx">acc1</span><span class="p">,</span><span class="w"> </span><span class="nx">acc2</span><span class="p">)</span>
+
+<span class="c1">// In-Database Update (UpdateWhere)</span>
+<span class="nx">list</span><span class="p">.</span><span class="nx">Where</span><span class="p">(</span><span class="nx">list</span><span class="p">.</span><span class="nx">IsStatusEqual</span><span class="p">(</span><span class="s">&quot;pending&quot;</span><span class="p">))</span>
+<span class="nx">rowsUpdated</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">list</span><span class="p">.</span><span class="nx">UpdateWhere</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;active&quot;</span><span class="p">,</span>
+<span class="p">})</span>
+
+<span class="c1">// In-Database Delete (DeleteWhere)</span>
+<span class="nx">list</span><span class="p">.</span><span class="nx">Where</span><span class="p">(</span><span class="nx">list</span><span class="p">.</span><span class="nx">IsStatusEqual</span><span class="p">(</span><span class="s">&quot;banned&quot;</span><span class="p">))</span>
+<span class="nx">rowsDeleted</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">list</span><span class="p">.</span><span class="nx">DeleteWhere</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="aggregates-and-iterators-go-1-23">
+<h2>Aggregates and Iterators (Go 1.23)<a class="headerlink" href="#aggregates-and-iterators-go-1-23" title="Link to this heading"></a></h2>
+<p>Enterprise supports basic aggregates (<code class="docutils literal notranslate"><span class="pre">Min</span></code>, <code class="docutils literal notranslate"><span class="pre">Max</span></code>, <code class="docutils literal notranslate"><span class="pre">Sum</span></code>, <code class="docutils literal notranslate"><span class="pre">Avg</span></code>) on model fields as well as standard library iterators.</p>
+<section id="model-convenience-methods">
+<h3>Model Convenience Methods<a class="headerlink" href="#model-convenience-methods" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">denemeList</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">NewDenemeList</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">db</span><span class="p">)</span>
+<span class="nx">maxVal</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">denemeList</span><span class="p">.</span><span class="nx">MaxCount</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="group-by-and-go-1-23-iter-seq2-iterators">
+<h3>Group By and Go 1.23 iter.Seq2 Iterators<a class="headerlink" href="#group-by-and-go-1-23-iter-seq2-iterators" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">groupList</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">NewGroupList</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">db</span><span class="p">)</span>
+
+<span class="kd">var</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="nx">groupName</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">    </span><span class="nx">groupSize</span><span class="w"> </span><span class="kt">int</span>
+<span class="p">)</span>
+
+<span class="nx">iterator</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">groupList</span><span class="p">.</span><span class="nx">AggregateRowsSeq</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">a</span><span class="w"> </span><span class="o">*</span><span class="nx">client</span><span class="p">.</span><span class="nx">Aggregate</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">a</span><span class="p">.</span><span class="nx">Field</span><span class="p">(</span><span class="s">&quot;name&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">groupName</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">a</span><span class="p">.</span><span class="nx">Count</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">groupSize</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">a</span><span class="p">.</span><span class="nx">GroupBy</span><span class="p">(</span><span class="s">&quot;name&quot;</span><span class="p">)</span>
+<span class="p">})</span>
+
+<span class="k">for</span><span class="w"> </span><span class="nx">index</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">iterator</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Group %d: Name: %s, Size: %d\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">index</span><span class="p">,</span><span class="w"> </span><span class="nx">groupName</span><span class="p">,</span><span class="w"> </span><span class="nx">groupSize</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="benchmark.html" class="btn btn-neutral float-left" title="Benchmark" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="table/transform.html" class="btn btn-neutral float-right" title="Transform DB Table to Enterprise Table" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Samet Burgazoglu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

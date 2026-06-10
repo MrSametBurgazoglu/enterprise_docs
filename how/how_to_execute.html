@@ -1,0 +1,193 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How Enterprise Executes Queries &mdash; Enterprise 0.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=049aceee"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="How Enterprise Filters Tables" href="how_to_filter.html" />
+    <link rel="prev" title="Enterprise &amp; PostgreSQL" href="../postgresql/postgre.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Enterprise
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud.html">Crud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../generating_models.html">Generating Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../migration.html">Migration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ai_guide.html">AI Agent Integration Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Table</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../table/transform.html">Transform DB Table to Enterprise Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../table/relation.html">DB Relations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../table/fields.html">Supported Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../table/hook.html">How to Hook Database Operations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">CRUD</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../crud/create.html">Create Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/retrieve.html">Retrieve Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/update.html">Update Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/delete.html">Delete Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/list.html">List Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/refresh.html">Refresh Model</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DB Fields</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../fields/field.html">Base Field Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/boolean.html">Boolean Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/uuid.html">UUID Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/string.html">String Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/integer.html">Integer Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/uint.html">Unsigned Integer Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/enum.html">Enum Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/time.html">Time Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/json.html">Json Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/byte.html">Byte Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/float.html">Float Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/decimal.html">Decimal Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/string_array.html">String Array Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/nillable.html">Nullable Fields (SetNillable)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/default.html">Field Default Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fields/custom.html">Custom Fields</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Filters</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../filter/advanced_filter.html">Advanced Filtering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../filter/relation.html">Relation Filtering</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Enterprise Postgresql (Pgx)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../postgresql/postgre.html">Enterprise &amp; PostgreSQL</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">How Enterprise Works</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">How Enterprise Executes Queries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#query-lifecycle-flow">Query Lifecycle Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#transactions-and-savepoints">Transactions and Savepoints</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="how_to_filter.html">How Enterprise Filters Tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pgx.html">Enterprise and pgx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="atlas.html">Enterprise Schema Migration with Atlas</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Enterprise</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">How Enterprise Executes Queries</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/how/how_to_execute.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="how-enterprise-executes-queries">
+<h1>How Enterprise Executes Queries<a class="headerlink" href="#how-enterprise-executes-queries" title="Link to this heading"></a></h1>
+<p>Understanding the execution lifecycle of queries in Enterprise helps you write efficient code and debug complex database interactions.</p>
+<section id="query-lifecycle-flow">
+<h2>Query Lifecycle Flow<a class="headerlink" href="#query-lifecycle-flow" title="Link to this heading"></a></h2>
+<p>Here is the step-by-step lifecycle of a database read operation (e.g., calling <code class="docutils literal notranslate"><span class="pre">Get()</span></code> on a model):</p>
+<ol class="arabic simple">
+<li><p><strong>SQL Compilation</strong>: The model delegates execution to the core query builder in the <code class="docutils literal notranslate"><span class="pre">client</span></code> package. This engine translates model predicates, relations, limit, offset, and order parameters into a parameter-deduplicated SQL query string and a <code class="docutils literal notranslate"><span class="pre">pgx.NamedArgs</span></code> map.</p></li>
+<li><p><strong>Observer Interception</strong>: If a <code class="docutils literal notranslate"><span class="pre">QueryObserver</span></code> is set in <code class="docutils literal notranslate"><span class="pre">Options</span></code>, its <code class="docutils literal notranslate"><span class="pre">Before</span></code> method is executed, which can mutate the context.</p></li>
+<li><p><strong>Driver Invocation</strong>: The compiled SQL is run against the connection pool via <cite>pgx</cite>.</p></li>
+<li><p><strong>Post-Execution Interception</strong>: The <code class="docutils literal notranslate"><span class="pre">QueryObserver.After</span></code> hook is executed with the operation result or error.</p></li>
+<li><p><strong>Logging</strong>: If <code class="docutils literal notranslate"><span class="pre">Options.Debug</span></code> is enabled, the query and its arguments are logged via <code class="docutils literal notranslate"><span class="pre">slog</span></code> (JSON handler, LevelDebug).</p></li>
+<li><p><strong>Result Scanning</strong>: The returned rows are scanned into the pre-allocated value pointers, and the model triggers its internal <code class="docutils literal notranslate"><span class="pre">ScanResult</span></code> hook to finalize entity states.</p></li>
+</ol>
+</section>
+<section id="transactions-and-savepoints">
+<h2>Transactions and Savepoints<a class="headerlink" href="#transactions-and-savepoints" title="Link to this heading"></a></h2>
+<p>Enterprise supports block-based transactions. If a transaction is active, the model operations are executed using a <code class="docutils literal notranslate"><span class="pre">Transaction</span></code> client which implements the same <code class="docutils literal notranslate"><span class="pre">DatabaseClient</span></code> interface, ensuring seamless transaction integration.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">Transaction</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">tx</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">DatabaseTransactionClient</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">account</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">models</span><span class="p">.</span><span class="nx">NewAccount</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">tx</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">account</span><span class="p">.</span><span class="nx">SetName</span><span class="p">(</span><span class="s">&quot;Transacted Name&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">account</span><span class="p">.</span><span class="nx">Create</span><span class="p">()</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../postgresql/postgre.html" class="btn btn-neutral float-left" title="Enterprise &amp; PostgreSQL" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="how_to_filter.html" class="btn btn-neutral float-right" title="How Enterprise Filters Tables" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Samet Burgazoglu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,209 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Base Field Configuration &mdash; Enterprise 0.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=049aceee"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Boolean Field" href="boolean.html" />
+    <link rel="prev" title="Refresh Model" href="../crud/refresh.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Enterprise
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud.html">Crud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../generating_models.html">Generating Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../migration.html">Migration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ai_guide.html">AI Agent Integration Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Table</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../table/transform.html">Transform DB Table to Enterprise Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../table/relation.html">DB Relations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../table/fields.html">Supported Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../table/hook.html">How to Hook Database Operations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">CRUD</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../crud/create.html">Create Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/retrieve.html">Retrieve Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/update.html">Update Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/delete.html">Delete Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/list.html">List Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crud/refresh.html">Refresh Model</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DB Fields</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Base Field Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#base-field-structure">Base Field Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#design-choice-package-resolution-for-default-functions">Design Choice: Package Resolution for Default Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#why-is-this-done">Why is this done?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="boolean.html">Boolean Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uuid.html">UUID Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="string.html">String Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integer.html">Integer Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uint.html">Unsigned Integer Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="enum.html">Enum Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="time.html">Time Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="json.html">Json Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="byte.html">Byte Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="float.html">Float Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="decimal.html">Decimal Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="string_array.html">String Array Field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nillable.html">Nullable Fields (SetNillable)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="default.html">Field Default Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom.html">Custom Fields</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Filters</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../filter/advanced_filter.html">Advanced Filtering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../filter/relation.html">Relation Filtering</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Enterprise Postgresql (Pgx)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../postgresql/postgre.html">Enterprise &amp; PostgreSQL</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">How Enterprise Works</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../how/how_to_execute.html">How Enterprise Executes Queries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how/how_to_filter.html">How Enterprise Filters Tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how/pgx.html">Enterprise and pgx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how/atlas.html">Enterprise Schema Migration with Atlas</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Enterprise</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Base Field Configuration</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/fields/field.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="base-field-configuration">
+<h1>Base Field Configuration<a class="headerlink" href="#base-field-configuration" title="Link to this heading"></a></h1>
+<p>All specialized database field builders (such as <cite>UUIDField</cite>, <cite>StringField</cite>, <cite>IntField</cite>) embed a common base <code class="docutils literal notranslate"><span class="pre">Field</span></code> configuration struct. This base struct manages metadata, default values, nullability, serial auto-incrementing status, and custom types.</p>
+<section id="base-field-structure">
+<h2>Base Field Structure<a class="headerlink" href="#base-field-structure" title="Link to this heading"></a></h2>
+<p>Under the hood, Enterprise maps field metadata using the following structure:</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">type</span><span class="w"> </span><span class="nx">Field</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">FieldType</span><span class="w">        </span><span class="kt">int</span><span class="w">      </span><span class="c1">// Core data type identifier</span>
+<span class="w">    </span><span class="nx">Name</span><span class="w">             </span><span class="kt">string</span><span class="w">   </span><span class="c1">// Go struct field name (e.g. &quot;CreatedAt&quot;)</span>
+<span class="w">    </span><span class="nx">DBName</span><span class="w">           </span><span class="kt">string</span><span class="w">   </span><span class="c1">// PostgreSQL column name (e.g. &quot;created_at&quot;)</span>
+<span class="w">    </span><span class="nx">Type</span><span class="w">             </span><span class="kt">string</span><span class="w">   </span><span class="c1">// Go type signature (e.g. &quot;time.Time&quot; or &quot;*time.Time&quot;)</span>
+<span class="w">    </span><span class="nx">BaseType</span><span class="w">         </span><span class="kt">string</span><span class="w">   </span><span class="c1">// Base Go type name without pointers</span>
+<span class="w">    </span><span class="nx">Nillable</span><span class="w">         </span><span class="kt">bool</span><span class="w">     </span><span class="c1">// True if nullable (represented as pointer type in Go)</span>
+<span class="w">    </span><span class="nx">HaveDefault</span><span class="w">      </span><span class="kt">bool</span><span class="w">     </span><span class="c1">// True if a default value is defined</span>
+<span class="w">    </span><span class="nx">IsPrepare</span><span class="w">        </span><span class="kt">bool</span><span class="w">     </span><span class="c1">// Internally used for query preprocessing</span>
+<span class="w">    </span><span class="nx">IsGreater</span><span class="w">        </span><span class="kt">bool</span><span class="w">     </span><span class="c1">// True if field supports comparison operators (&gt; , &lt;)</span>
+<span class="w">    </span><span class="nx">HaveCustomType</span><span class="w">   </span><span class="kt">bool</span><span class="w">     </span><span class="c1">// True if it is a user-defined custom DB field</span>
+<span class="w">    </span><span class="nx">IsTime</span><span class="w">           </span><span class="kt">bool</span><span class="w">     </span><span class="c1">// True if column represents a timestamp</span>
+<span class="w">    </span><span class="nx">IsUUID</span><span class="w">           </span><span class="kt">bool</span><span class="w">     </span><span class="c1">// True if column represents a UUID</span>
+<span class="w">    </span><span class="nx">CanIn</span><span class="w">            </span><span class="kt">bool</span><span class="w">     </span><span class="c1">// True if the field supports IN / NOT IN filtering</span>
+<span class="w">    </span><span class="nx">Serial</span><span class="w">           </span><span class="kt">bool</span><span class="w">     </span><span class="c1">// True if this column auto-increments (serial/bigserial)</span>
+<span class="w">    </span><span class="nx">CustomDBType</span><span class="w">     </span><span class="kt">string</span><span class="w">   </span><span class="c1">// Raw database column type (e.g. &quot;text&quot; or unsupported type)</span>
+<span class="w">    </span><span class="nx">RequiredPackages</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="w"> </span><span class="c1">// External packages that must be imported in the model file</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="design-choice-package-resolution-for-default-functions">
+<h2>Design Choice: Package Resolution for Default Functions<a class="headerlink" href="#design-choice-package-resolution-for-default-functions" title="Link to this heading"></a></h2>
+<p>When you define a dynamic default value using <code class="docutils literal notranslate"><span class="pre">DefaultFunc(f</span> <span class="pre">func()</span> <span class="pre">Type)</span></code> (such as passing <code class="docutils literal notranslate"><span class="pre">uuid.New</span></code> or <code class="docutils literal notranslate"><span class="pre">time.Now</span></code>), Enterprise inspects the function using reflection at code generation time.</p>
+<p>It retrieves the package path (e.g. <code class="docutils literal notranslate"><span class="pre">github.com/google/uuid</span></code> or <code class="docutils literal notranslate"><span class="pre">time</span></code>) and automatically registers it inside <code class="docutils literal notranslate"><span class="pre">RequiredPackages</span></code>.</p>
+<section id="why-is-this-done">
+<h3>Why is this done?<a class="headerlink" href="#why-is-this-done" title="Link to this heading"></a></h3>
+<p>This is a core design choice:
+1. <strong>Separation of Concerns</strong>: Your schema definition files (under the <code class="docutils literal notranslate"><span class="pre">db_models</span></code> package) can import whatever packages are needed for default values without coupling your main runtime packages to them.
+2. <strong>Clean Imports</strong>: The code generator resolves the package imports programmatically, guaranteeing that the generated code compiles correctly without manual import intervention.
+3. <strong>Model Decoupling</strong>: Once generation completes, your application only needs to import the clean, generated <code class="docutils literal notranslate"><span class="pre">models</span></code> package; it does not need to reference the original <cite>db_models</cite> schema files.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../crud/refresh.html" class="btn btn-neutral float-left" title="Refresh Model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="boolean.html" class="btn btn-neutral float-right" title="Boolean Field" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Samet Burgazoglu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
