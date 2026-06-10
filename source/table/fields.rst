@@ -18,6 +18,8 @@ Supported Types
   - ``models.Float32Field(name)`` maps to ``real``.
   - ``models.Float64Field(name)`` maps to ``double precision``.
 - **String**: ``models.StringField(name)`` maps to ``varchar``.
+- **Decimal**: ``models.DecimalField(name, precision, scale)`` maps to ``numeric(precision, scale)``.
+- **String Array**: ``models.StringArrayField(name)`` maps to ``text[]``.
 - **Enum**: ``models.EnumField(name, values)`` maps to ``varchar`` with validation.
 - **Time**: ``models.TimeField(name)`` maps to ``timestamp with time zone``.
 - **JSON**: ``models.JSONField(name)`` maps to ``jsonb``.

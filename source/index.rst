@@ -71,6 +71,8 @@ Features
    fields/json.rst
    fields/byte.rst
    fields/float.rst
+   fields/decimal.rst
+   fields/string_array.rst
    fields/nillable.rst
    fields/default.rst
    fields/custom.rst

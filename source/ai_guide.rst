@@ -47,6 +47,8 @@ Supported Fields
 - **Unsigned Integer**: ``models.UintField(name)``
 - **Floats**: ``models.Float32Field(name)``, ``models.Float64Field(name)``
 - **String**: ``models.StringField(name)``
+- **Decimal**: ``models.DecimalField(name, precision, scale)``
+- **String Array**: ``models.StringArrayField(name)``
 - **Enum**: ``models.EnumField(name, stringSlice)``
 - **Time**: ``models.TimeField(name)``
 - **JSON**: ``models.JSONField(name)``

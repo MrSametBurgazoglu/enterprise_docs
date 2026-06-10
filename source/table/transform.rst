@@ -34,6 +34,7 @@ A table schema is defined as a function that returns a ``*models.Table``.
 - Set the table name using ``tb.SetTableName("name")``.
 - Define the primary key using ``tb.SetIDField(field)``.
 - Add single-column or composite indexes using ``tb.AddIndex(name, columns...)``.
+- Add unique indexes (single or composite) using ``tb.AddUniqueIndex(name, columns...)``.
 
 Example: ``db_models/account.go``
 ----------------------------------
